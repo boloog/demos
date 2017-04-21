@@ -9,3 +9,4 @@
 |点击对象|e.srcElement|e.target|
 |this指向？|window|node|
 
+[事件封装](https://github.com/boloog/demos/blob/master/js-event.js)
