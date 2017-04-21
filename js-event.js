@@ -59,10 +59,3 @@ function preventDefault(e){
 		e.returnValue = false;
 	}
 }
-function $(id){
-	return document.querySelector(id);
-}
-
-function $$(cls){
-	return document.querySelectorAll(cls);
-}
