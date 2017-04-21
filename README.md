@@ -1,2 +1,4 @@
-# demos
-demos 的仓库
+# 我的第一个JavaScript封装兼容事件
+
+
+
