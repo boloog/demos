@@ -1,4 +1,4 @@
-# 我的第一个JavaScript封装兼容事件
-
+# JavaScript封装兼容事件
+代码说明
 
 
