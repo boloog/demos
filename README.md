@@ -1,4 +1,4 @@
-# JavaScript封装兼容事件
+# JavaScript事件兼容的函数
 
 代码说明
 
