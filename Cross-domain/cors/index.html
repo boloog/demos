@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jsonp</title>
+  <style>
+   *{
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: #333;
+      background-color: #fff;
+      font-size: 14px;
+    }
+    .clearfix:after{
+      content: "";
+      display: block;
+      clear: both;
+    }
+    input,button,select,textarea{
+      outline:none;border: none;
+    }
+    a{
+      text-decoration: none;
+    }
+    #ul{
+      list-style: none;
+    }
+    .btn{
+      padding: 15px;
+      border: 1px solid #2e6da4;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      background-color: #337ab7;
+      color: #fff;
+      margin: 20px auto;
+    }
+    .btn:hover{
+      background-color: #286090;
+      border: 1px #204d74 solid;
+    }
+    #ul li{
+        margin: 20px 40px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 8px;
+    }
+    #ul li a{
+    	color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <ul id="ul"></ul>
+  <button class="btn">切换新闻</button>
+  <script>
+    var btn = document.querySelector('.btn');
+    var ul = document.getElementById('ul');
+    var lock = true;
+    btn.addEventListener('click', function(){
+        ajax({
+            url: '/getNews',   //接口地址
+            type: 'get',               // 类型， post 或者 get,
+            data: '',
+            success: function(ret){
+              data.innerText = ret;       // {status: 0}
+            },
+            error: function(){
+              data.innerText = '出错了'; 
+            }
+        })
+    });
+
+    function ajax(opts){
+		if( !lock ){ return; }
+		opts.type = opts.type || 'get';
+		opts.dataType = opts.dataType || 'json';
+		opts.data = opts.data || {};
+		opts.success = opts.success || function(){};
+		opts.error = opts.error || function(){};
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState === 4){
+		  		if( xhr.status === 200 || xhr.status === 304){
+		  		var data = JSON.parse( xhr.responseText );
+			  	var html = "";
+			      for(var key in data){
+			        html += "<li style='background-color:"+getRandColor()+"'><a href="+data[key].url+" target='_block' >"+data[key].name+"</a></li>";
+			      }
+			      ul.innerHTML = html;
+			  	}
+			  lock = true;
+			}
+		}
+	  	xhr.open(opts.type, opts.url, true);
+	    xhr.send();
+	  	lock = false;
+    }
+    function getRandColor(){
+      var str = '1234567890abcdef';
+      var colorStr = '#';
+      for(var i =0; i < 6; i++){
+          colorStr += str[ Math.floor(Math.random() * str.length) ];
+      }
+      return colorStr;
+    }
+  </script>
+</body>
+</html>

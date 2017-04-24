@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>使用postMessage跨域</title>
+    <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: #333;
+      background-color: #fff;
+      font-size: 14px;
+    }
+    input,button,select,textarea{
+      outline:none;border: none;
+    }
+    p{
+        padding: 20px 0 0 40px;
+    }
+    input{
+        margin: 20px 40px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 8px;
+        width: 80%;
+    }
+     </style>
+</head>
+<body>
+
+    <input type="text" placeholder="http://code.com:8080/demo2.html">
+
+<script>
+    document.querySelector('input').addEventListener('input', function () {
+    	window.parent.postMessage(this.value, '*');
+    });
+    window.addEventListener('message', function (e) {
+        document.querySelector('input').value = e.data
+    });
+</script>
+</body>
+</html>
