@@ -62,7 +62,7 @@
     var lock = true;
     btn.addEventListener('click', function(){
         ajax({
-            url: '/getNews',   //接口地址
+            url: 'http://b.code.com:8080/getNews',   // 接口地址 当前域名http://b.code.com:8080 
             type: 'get',               // 类型， post 或者 get,
             data: '',
             success: function(ret){

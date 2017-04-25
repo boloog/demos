@@ -52,7 +52,10 @@ app.get('/getNews', function (req, res) {
     news.splice(index, 1);
   }
 
-  res.header("Access-Control-Allow-Origin", "*");
+  // 限制当前请求http://a.code.com:8080可以获取数据
+  res.header("Access-Control-Allow-Origin", "http://a.code.com:8080"); 
+  // 接受任何请求
+  // res.header("Access-Control-Allow-Origin", "*"); 
   res.send(data);
   
 });
