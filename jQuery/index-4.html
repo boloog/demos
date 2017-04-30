@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用jQuery实现以下操作</title>
+	<style>
+		*{
+	      margin: 0;
+	      padding: 0;
+	    }
+	    body {
+	      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	      color: #fff;
+	      background-color: #00796b;
+	      font-size: 16px;
+	    }
+	    .clearfix:after{
+	      content: "";
+	      display: block;
+	      clear: both;
+	    }
+	    input,button,select,textarea{
+	      outline:none;border: none;
+	    }
+	    a{
+	      text-decoration: none;
+	    }
+	    .wrap{
+
+	    	padding: 20px;
+	    }
+	    .wrap p{
+	    	padding: 10px 0;
+	    }
+		.btn{
+			padding: 10px 20px;
+			border-radius: 6px;
+			color: #fff;
+			background-color: #ea6f5a;
+			cursor: pointer;
+		}
+		.box{
+			width: 300px;
+			padding: 100px;
+			border: 1px #ccc solid;
+			text-align: center;
+			font-size: 30px;
+			color: #333;
+		}
+		.distance{
+			color: pink;
+			font-size: 40px;
+		}
+		.ipt{
+			padding: 15px;
+			border-radius: 6px;
+			font-size: 18px;
+			border: 4px solid #fff;
+		}
+		#sel{
+			width: 160px;
+			height: 50px;
+			font-size: 18px;
+		}
+		.wrap p:last-child{
+			margin-bottom: 200px;
+		}
+	</style>
+</head>
+<body>
+<div class="wrap">
+	<p>当点击$btn 时，让 $btn 的背景色变为红色再变为蓝色</p>
+	<button class="btn">点我</button>
+	<p>当窗口滚动时，获取垂直滚动距离</p>
+	<div class="distance">
+		当前获取垂直滚动距离为：<span class="distance-s">0</span>
+	</div>
+	<p>当鼠标放置到$div 上，把$div 背景色改为红色，移出鼠标背景色变为白色</p>
+	<div class="box">
+		背景色
+	</div>
+	<p>当鼠标激活 input 输入框时让输入框边框变为蓝色，当输入框内容改变时把输入框里的文字小写变为大写，当输入框失去焦点时去掉边框蓝色，控制台展示输入框里的文字</p>
+	
+	<input type="text" class="ipt" placeholder="请输入内容"> 
+	<p>输入框里的文字：<span class="ipt-val"></span></p>
+	<p>当选择 select 后，获取用户选择的内容</p>
+	<select name="" id="sel">
+		<option value="1">1</option>
+		<option value="2" selected>2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+	</select>
+	<p>选择的内容：<span class="sel-val"></span></p>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script>
+$(function(){
+	$('.btn').on('click', function(){
+		$(this).css('background-color','red');
+		setTimeout(function(){
+			$('.btn').css('background-color','blue');
+		},1000);
+	});	
+	$('.distance-s').html( $(window).scrollTop());
+	$(window).on("scroll",function(){
+		$('.distance-s').html( $(window).scrollTop());
+	});
+
+	var box = $('.box');
+	box.on('mouseenter', function(){
+		$(this).css('background-color', 'red');
+	});
+	box.on('mouseleave', function(){
+		$(this).css('background-color', 'white');
+	});
+	var ipt = $('.ipt');
+
+	ipt.on('focus', function(){
+		$(this).css({'border':'4px blue solid'});
+	});
+
+	ipt.on('keyup', function(){
+		var val = $(this).val().toUpperCase();
+		$(this).val( val );
+		$('.ipt-val').html( $(this).val());
+	});
+	ipt.on('blur', function(){
+		$(this).css({'border':'4px #fff solid'});
+	})
+
+	$('.sel-val').html( $('#sel').val() )
+	$('#sel').on('change', function(){
+		$('.sel-val').html( $(this).val() )
+	})
+})
+
+
+
+</script>
+</body>
+</html>

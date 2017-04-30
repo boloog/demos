@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery实现点击加载更多</title>
+  <style>
+   *{
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: #333;
+      background-color: #fff;
+      font-size: 14px;
+    }
+    .clearfix:after{
+      content: "";
+      display: block;
+      clear: both;
+    }
+    input,button,select,textarea{
+      outline:none;border: none;
+    }
+    a{
+      text-decoration: none;
+      color: #fff;
+    }
+    #ul{
+      list-style: none;
+    }
+    .btn{
+      padding: 10px 15px;
+      border: 1px solid #2e6da4;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      color: #fff;
+      margin: 20px auto;
+      background-color: #286090;
+    }
+    .btn:hover{
+      border: 1px #204d74 solid;
+    }
+    #ul li{
+        margin: 20px 40px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 8px;    
+    }
+    .btn img{
+      width: 30px;
+      height: 30px;
+    }
+    .content p{
+        text-align: center;
+
+    }
+  </style>
+</head>
+<body>
+<div class="content">
+    <ul id="ul"></ul>
+    <button class="btn">加载更多</button>
+</div>
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+  <script>
+  $(function(){
+        var btn = $('.btn'),ul = $('ul'),pageIndex = 0,lock =  true;
+        btn.on('click', function(){
+          if(!lock){ return;}
+          getData();
+          lock = false;
+        });
+        /**
+         * 获取数组
+         */
+        function getData(){
+            $.get('/getMoreNews', {page: pageIndex} ).done(function(response){
+                if(response.success){
+                    appendData(response.data);
+                }else{
+                    alert(response.msg)
+                }
+              }).fail(function(){
+                console.log('出错了');
+              });
+        }
+        getData();
+        /**
+         * 添加数据
+         * @param  {data} data Array
+         */
+        function appendData(data){
+            if(data.length == 0){
+                $('.btn').remove();
+                $('.content').append('<p>没有数据了</p>');
+                return;
+            }
+            var html ='';
+            $.each(data, function(index, val) {
+                html += "<li style='background-color:"+getRandColor()+"'><a href="+val.url+" target='_block' >"+val.name+"</a></li>";
+                  
+            });
+            $('#ul').append(html);
+            lock = true;
+            pageIndex +=3;
+        }
+        /**
+         * 获取随机色
+         */
+        function getRandColor(){
+          var str = '1234567890abcdef';
+          var colorStr = '#';
+          for(var i =0; i < 6; i++){
+              colorStr += str[ Math.floor(Math.random() * str.length) ];
+          }
+          return colorStr;
+        }
+     })
+  </script>
+</body>
+</html>
