@@ -50,10 +50,46 @@ app.get('/getMoreNews', function (req, res) {
   {
     name: "JavaScript的数据类型和基础运算符的使用",
     url: "http://www.jianshu.com/p/c5ff12b4a042"
+  },
+  {
+    name: "ajax基础实践",
+    url: "http://www.jianshu.com/p/d25c1e8dca54"
+  },
+  {
+    name: "JavaScript的BOM基础",
+    url: "http://www.jianshu.com/p/29b861b94e3a"
+  },
+  {
+    name: "JavaScript的定时器",
+    url: "http://www.jianshu.com/p/0999e6eb8b7b"
+  },
+  {
+    name: "JavaScript的闭包",
+    url: "http://www.jianshu.com/p/54a5042817e9"
+  },
+  {
+    name: "JavaScript的DOM事件操作",
+    url: "http://www.jianshu.com/p/4e55029342fb"
+  },
+  {
+    name: "JavaScript正则表达式基本语法和用法",
+    url: "http://www.jianshu.com/p/53135582b2a2"
+  },
+  {
+    name: "JavaScript操作Date对象处理日期和时间",
+    url: "http://www.jianshu.com/p/feaea240b079"
+  },
+  {
+    name: "JavaScript的Math对象和数组操作",
+    url: "http://www.jianshu.com/p/7772c69f5283"
   }];
 
-  var pageIndex = req.query.page; // 通过 req.query获取请求参数
-  var pageNumber = 3;
+  var pageIndex = req.query.page;   // 通过 req.query获取请求参数 
+  var number = req.query.number;    // index-5 是没有传 number pageNumber默认值为3 
+  var pageNumber = 10;
+  if(number > 0){
+    pageNumber = 3;
+  }
   var newsData = news.splice(pageIndex, pageNumber);
   res.send({
   	success: true, 
