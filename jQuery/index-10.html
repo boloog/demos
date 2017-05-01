@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery-slide-fadeIn</title>
+	<style>
+		*{
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+	        font-size: 14px;
+	    }
+	    .clearfix:after{
+	        content: "";
+	        display: block;
+	        clear: both;
+	    }
+	    input,button,select,textarea{
+	        outline:none;border: none;
+	    }
+	    a{
+	        text-decoration: none;
+	        color: #fff;
+	    }
+	    ul,li{
+	        list-style: none;
+	    }
+	    img{
+	    	border: none;
+	    }
+	    .wrap{
+			width: 790px;
+			margin: 20px auto;
+	    }
+	    .slide-box{
+	    	height: 340px;
+	    	overflow: hidden;
+			position: relative;
+	    }
+	    .slide-left{
+	    	width: 100%;
+	    	position: relative;
+	    }
+	    .slide-left li{
+	    	position: absolute;
+	    	display: none;
+	    }
+	    .slide-left li a{
+	    	display: block;
+	    }
+	    .slide-left li a img{
+	    	width: 100%;
+	    }
+	  
+		.slider-indicator{
+	        position: absolute;
+	        z-index: 1;
+		    left: 50%;
+		    transform: translateX(-50%);
+		    bottom: 20px;
+		    font-size: 0;
+		    padding: 4px 8px;
+		    border-radius: 12px;
+		    background-color: rgba(255, 255, 255, 0.3);
+		}
+		.slider-indicator i{
+			display: inline-block;
+		    margin-right: 10px;
+		    width: 12px;
+		    height: 12px;
+		    border-radius: 100%;
+		    background-color: #fff;
+		    cursor: pointer;
+		}
+		.slider-indicator i.page-active{
+			background-color: #2196F3;
+		}
+		.slide-btn{
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 1;
+			display: block;
+			width: 40px;
+			height: 50px;
+			line-height: 45px;
+			background-color: rgba(0,0,0,.2);
+			font-size: 20px;
+			text-align: center;
+			display: none;
+		}
+		.slider-prev{
+			left: 0;
+			border-top-right-radius: 6px;
+    		border-bottom-right-radius: 6px;
+		}
+		.slider-next{
+			right: 0;
+			border-top-left-radius: 6px;
+    		border-bottom-left-radius: 6px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="slide-box clearfix">
+			<ul class="slide-left"></ul>
+			<div class="slider-indicator"></div>
+			<a href="javascript:void(0)" class="slide-btn slider-prev">&lt;</a>
+			<a href="javascript:void(0)" class="slide-btn slider-next">&gt;</a>
+		</div>
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+	<script>
+	$(function(){
+		var data = [{
+			url: '#1',
+			img: '//img11.360buyimg.com/da/jfs/t4657/90/3561484677/83893/f05ac312/59004d0dNc66933b4.png'
+		},
+		{
+			url: '#2',
+			img: '//img1.360buyimg.com/da/jfs/t5122/78/482212244/90225/c4ccd3b7/59001933Nb4a11a00.jpg'
+		},
+		{
+			url: '#3',
+			img: '//img12.360buyimg.com/da/jfs/t3172/29/7532815266/78514/96c6e177/58ba3348N479cafe1.jpg'
+		},
+		{
+			url: '#4',
+			img: '//img20.360buyimg.com/da/jfs/t4249/102/1331521120/224199/40dcb547/58c0b221N5acfd3c6.jpg'
+		},
+		{
+			url: '#5',
+			img: '//img13.360buyimg.com/da/jfs/t5518/250/560655744/102051/9f4965b2/5901d835N6c3481c7.jpg'
+		}];
+
+		var slide = $('.slide-box');
+		var prev = $('.slider-prev');
+		var next = $('.slider-next');
+		var slideLeftData = $('.slide-left');
+		var slideIndicator = $('.slider-indicator');
+		var index = 0,slideAuto=null,isAnimate=false;
+		
+
+		var slideData = '';		// 数据
+		var pageIndicator = '';	// page的小点
+		$.each(data, function(index, val) {
+			slideData += "<li data-id="+index+"><a href="+val.url+"><img src="+val.img+"></a></li>";
+			pageIndicator += "<i></i>";
+		});
+		slideLeftData.append(slideData); 	// 给左边盒子添加图片信息
+
+		slideIndicator.append(pageIndicator).find('i').eq(0).addClass('page-active'); // 给第一个小点添加样式
+		$('.slide-left li').eq(0).show();
+
+		prev.on('click', prevPage); 	// 点击上一页
+		next.on('click', nextPage);	// 点击下一页
+		// 自动运行函数
+		var autoRun = function(){
+			slideAuto = setInterval(function(){
+				nextPage(index);
+			}, 3000)
+		}
+		autoRun();
+		// 上一页
+		function prevPage(){
+			if(isAnimate){ return;}
+			isAnimate = true;
+			index--;
+			if(index < 0){
+				index = data.length -1;
+			}
+			slideLeftData.find('li').eq(index).fadeIn().siblings().fadeOut();
+			slidePage(index);
+			isAnimate = false;
+		}
+		
+		// 下一页
+		function nextPage(){
+			if(isAnimate){ return;}
+			isAnimate = true;
+			index++;
+			if(index >= data.length){
+				index = 0;
+			}
+			slideLeftData.find('li').eq(index).fadeIn().siblings().fadeOut();
+			slidePage(index);
+			isAnimate = false;
+		}
+		// page
+		slideIndicator.on('mouseenter', 'i', function(){
+			var pageIndex = $(this).index();
+			index = pageIndex;
+			$(this).addClass('page-active').siblings().removeClass('page-active');
+			slideLeftData.find('li').eq(pageIndex).fadeIn().siblings().fadeOut();
+		});
+		// 获取当前page 并添加样式
+		function slidePage(){
+			slideIndicator.find('i').eq(index).addClass('page-active').siblings().removeClass('page-active')
+		}
+		// 鼠标移入时
+		slide.on('mouseenter', function(){
+			$('.slide-btn').show();		// 显示左右的按钮
+			clearInterval(slideAuto); 	// 清除定时器
+		});
+		// 鼠标移出时
+		slide.on('mouseleave', function(){
+			$('.slide-btn').hide();		// 隐藏左右的按钮
+			autoRun();					// 继续运行定时器
+		});	
+
+	})
+
+
+
+
+	</script>
+</body>
+</html>

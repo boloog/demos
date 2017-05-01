@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery-slide-无缝滚动</title>
+	<style>
+		*{
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+	        font-size: 14px;
+	    }
+	    .clearfix:after{
+	        content: "";
+	        display: block;
+	        clear: both;
+	    }
+	    input,button,select,textarea{
+	        outline:none;border: none;
+	    }
+	    a{
+	        text-decoration: none;
+	        color: #fff;
+	    }
+	    ul,li{
+	        list-style: none;
+	    }
+	    img{
+	    	border: none;
+	    }
+	    .wrap{
+			width: 790px;
+			margin: 20px auto;
+	    }
+	    .slide-box{
+	    	height: 340px;
+	    	overflow: hidden;
+			position: relative;
+	    }
+	    .slide-ul{
+	    	width: 100%;
+	    	position: relative;
+	    }
+	    .slide-ul li{
+	    	width: 790px;
+	    	float: left;
+	    }
+	    .slide-ul li a{
+	    	display: block;
+	    }
+	    .slide-ul li a img{
+	    	width: 100%;
+	    }
+	  
+		.slider-indicator{
+	        position: absolute;
+	        z-index: 1;
+		    left: 50%;
+		    transform: translateX(-50%);
+		    bottom: 20px;
+		    font-size: 0;
+		    padding: 4px 8px;
+		    border-radius: 12px;
+		    background-color: rgba(255, 255, 255, 0.3);
+		}
+		.slider-indicator i{
+			display: inline-block;
+		    margin-right: 10px;
+		    width: 12px;
+		    height: 12px;
+		    border-radius: 100%;
+		    background-color: #fff;
+		    cursor: pointer;
+		}
+		.slider-indicator i.page-active{
+			background-color: #2196F3;
+		}
+		.slide-btn{
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 1;
+			display: block;
+			width: 40px;
+			height: 50px;
+			line-height: 45px;
+			background-color: rgba(0,0,0,.2);
+			font-size: 20px;
+			text-align: center;
+			display: none;
+		}
+		.slider-prev{
+			left: 0;
+			border-top-right-radius: 6px;
+    		border-bottom-right-radius: 6px;
+		}
+		.slider-next{
+			right: 0;
+			border-top-left-radius: 6px;
+    		border-bottom-left-radius: 6px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="slide-box clearfix">
+			<ul class="slide-ul"></ul>
+			<div class="slider-indicator"></div>
+			<a href="javascript:void(0)" class="slide-btn slider-prev">&lt;</a>
+			<a href="javascript:void(0)" class="slide-btn slider-next">&gt;</a>
+		</div>
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+	<script>
+	$(function(){
+		var data = [{
+			url: '#1',
+			img: '//img11.360buyimg.com/da/jfs/t4657/90/3561484677/83893/f05ac312/59004d0dNc66933b4.png'
+		},
+		{
+			url: '#2',
+			img: '//img1.360buyimg.com/da/jfs/t5122/78/482212244/90225/c4ccd3b7/59001933Nb4a11a00.jpg'
+		},
+		{
+			url: '#3',
+			img: '//img12.360buyimg.com/da/jfs/t3172/29/7532815266/78514/96c6e177/58ba3348N479cafe1.jpg'
+		},
+		{
+			url: '#4',
+			img: '//img20.360buyimg.com/da/jfs/t4249/102/1331521120/224199/40dcb547/58c0b221N5acfd3c6.jpg'
+		},
+		{
+			url: '#5',
+			img: '//img13.360buyimg.com/da/jfs/t5518/250/560655744/102051/9f4965b2/5901d835N6c3481c7.jpg'
+		}];
+
+		var slide = $('.slide-box'),	// 幻灯片盒子
+			prev = $('.slider-prev'),	// 上一页按钮
+			next = $('.slider-next'),	// 下一页按钮
+			slideUl = $('.slide-ul'),	// 图片盒子
+			slideIndicator = $('.slider-indicator'),	// 中部page盒子
+			pageIndex = 0,		// page索引
+			slideAuto=null,		// 自动滚动方法
+			isAnimate=false,	// 事件锁
+			slideData = '',		// img数据变量
+			pageIndicator = '';	// page的小点变量
+
+		// 循环添加img数据和page小点的个数
+		$.each(data, function(index, val) {
+			slideData += "<li data-id="+index+"><a href="+val.url+"><img src="+val.img+"></a></li>";
+			pageIndicator += "<i></i>";
+		});
+		// 给盒子添加图片信息
+		slideUl.append(slideData); 	
+		// 给page盒子添加小点并给第一个添加 page-active 样式
+		slideIndicator.append(pageIndicator).find('i').eq(0).addClass('page-active'); 
+		// 默认给第一个li添加显示
+		$('.slide-ul li').eq(0).show();
+		// 获取图片盒子里面的 li 个数
+		var imgLength = slideUl.children().length;
+		// 分别给 图片盒子 最前面克隆 li 最后一个，最后面克隆 li 第一个 [4,0,1,2,3,4,0]
+		var lastLi = slideUl.find('li').last();	
+		var firstLi = slideUl.find('li').first();
+		slideUl.prepend(lastLi.clone())
+		slideUl.append(firstLi.clone());
+
+		// 获取克隆后图片盒子里面的 li 个数 
+		var countLength = slideUl.children().length;
+		// 单独一个li的盒子宽度
+		var slideLiWidth = slideUl.find('li').width();
+		// 重新计算出 图片盒子 的宽度 让 li 浮动在一行 
+		var boxWidth = countLength * slideLiWidth;
+		// 给图片盒子宽度添加总长度 然后第一个看到的是克隆的那个，所以给个 - 一个li宽度 就显示真正的第一个 
+		slideUl.css({'left': -slide.width(), width: boxWidth});
+
+		// 点击上一页
+		prev.on('click', function(){
+			prevPage(1)
+		}); 	
+		// 点击下一页
+		next.on('click', function(){
+			nextPage(1);
+		});
+		
+		// 自动运行函数
+		var autoRun = function(){
+			slideAuto = setInterval(function(){
+				nextPage(1);
+			}, 3000)
+		}
+		autoRun();
+		// 上一页
+		function prevPage(len){
+			if(isAnimate){ return;}
+			isAnimate = true;
+			pageIndex -=len;
+			// '-='+slideLiWidth 0 -790px -1580px -2370px -3160px -3950px
+			slideUl.animate({left: '+='+len*slideLiWidth },function(){
+				if( pageIndex < 0){
+					pageIndex = imgLength-1; // 获取最后一个
+					slideUl.css({left: -slideLiWidth*imgLength}); // 默认回到 -3950px 也就是第后一个
+				}
+				isAnimate = false;
+				slidePage(pageIndex); // 获取当前的 小点 状态 
+			});
+
+		}
+		
+		// 下一页
+		function nextPage(len){
+			if(isAnimate){ return;}
+			isAnimate = true;
+			pageIndex += len;
+			console.log( pageIndex )
+			// '-='+slideLiWidth -790px -1580px -2370px -3160px -3950px
+			slideUl.animate({left: '-='+len*slideLiWidth },function(){
+				// 判断当前索引是否等于img图片的长度（没克隆前的长度）
+				if(pageIndex > imgLength -1 ){
+					pageIndex = 0;	// 给索引值设置为0 也就是当前一个
+					slideUl.css({left: -slideLiWidth}); // 默认回到 -790px 也就是第0个
+				}
+				isAnimate = false;
+				slidePage(pageIndex); // 获取当前的 小点 状态 
+			});
+		}
+		// 点击切换
+		slideIndicator.on('click', 'i', function(){
+			var index = $(this).index();
+			$(this).addClass('page-active').siblings().removeClass('page-active');
+			if(pageIndex > index){  		// 当前page 大于 当前索引
+				prevPage(pageIndex - index); // 向后移动
+			}else{
+				nextPage(index - pageIndex); // 向前移动
+			}
+		});
+		// 获取当前page 并添加样式
+		function slidePage(){
+			slideIndicator.find('i').removeClass('page-active').eq(pageIndex).addClass('page-active')
+		}
+		// 鼠标移入时
+		slide.on('mouseenter', function(){
+			$('.slide-btn').show();		// 显示左右的按钮
+			clearInterval(slideAuto); 	// 清除定时器
+		});
+		// 鼠标移出时
+		slide.on('mouseleave', function(){
+			$('.slide-btn').hide();		// 隐藏左右的按钮
+			autoRun();					// 继续运行定时器
+		});	
+	})
+
+
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery-slide</title>
+	<style>
+		*{
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	        font-size: 14px;
+	    }
+	    .clearfix:after{
+	        content: "";
+	        display: block;
+	        clear: both;
+	    }
+	    input,button,select,textarea{
+	        outline:none;border: none;
+	    }
+	    a{
+	        text-decoration: none;
+	        color: #fff;
+	    }
+	    ul,li{
+	        list-style: none;
+	    }
+	    img{
+	    	border: none;
+	    }
+	    .wrap{
+			width: 960px;
+			margin: 20px auto;
+	    }
+	    .slide-box{
+	    	height: 280px;
+	    	overflow: hidden;
+			position: relative;
+	    }
+	    .slide-left{
+	    	width: 641px;
+	    	position: relative;
+	    }
+	    .slide-left li{
+	    	position: absolute;
+	    	display: none;
+	    }
+	    .slide-left li a{
+	    	display: block;
+	    }
+	    .slide-left li a img{
+	    	width: 100%;
+	    }
+	    .slide-right{
+	    	float: right;
+	    	width: 316px;
+	    	position: relative;
+	    }
+    	.slide-right li {
+    		height: 140px;
+    	}
+	   	.slide-right li a{
+	    	display: block;
+	    }
+	    .slide-right li a img{
+	    	width: 100%;
+	    }
+		.slider-indicator{
+	        position: absolute;
+	        z-index: 1;
+		    left: 50%;
+		    transform: translateX(-50%);
+		    bottom: 20px;
+		    font-size: 0;
+		    padding: 4px 8px;
+		    border-radius: 12px;
+		    background-color: rgba(255, 255, 255, 0.3);
+		}
+		.slider-indicator i{
+			display: inline-block;
+		    margin-right: 10px;
+		    width: 12px;
+		    height: 12px;
+		    border-radius: 100%;
+		    background-color: #fff;
+		    cursor: pointer;
+		}
+		.slider-indicator i.page-active{
+			background-color: #2196F3;
+		}
+		.slide-btn{
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 1;
+			display: block;
+			width: 40px;
+			height: 50px;
+			line-height: 45px;
+			background-color: rgba(0,0,0,.2);
+			font-size: 20px;
+			text-align: center;
+			display: none;
+		}
+		.slider-prev{
+			left: 0;
+			border-top-right-radius: 6px;
+    		border-bottom-right-radius: 6px;
+		}
+		.slider-next{
+			right: 0;
+			border-top-left-radius: 6px;
+    		border-bottom-left-radius: 6px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="slide-box clearfix">
+			<ul class="slide-left"></ul>
+			<ul class="slide-right"></ul>
+			<!-- <div class="slider-indicator"></div> -->
+			<a href="javascript:void(0)" class="slide-btn slider-prev">&lt;</a>
+			<a href="javascript:void(0)" class="slide-btn slider-next">&gt;</a>
+		</div>
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+	<script>
+	$(function(){
+		var data = [{
+			url: '#1',
+			img: 'http://upload.jianshu.io/admin_banners/web_images/2992/c911a7761cdbafb8666e5ab7c914fd54a457204b.jpg'
+		},
+		{
+			url: '#2',
+			img: 'http://upload.jianshu.io/admin_banners/web_images/2991/eef49dbbb8fff9f15f39b8d0d8a5b398f0ad8cfb.jpg'
+		},
+		{
+			url: '#3',
+			img: 'http://upload.jianshu.io/admin_banners/web_images/2977/26d58c4b2b808b962bef6cf205db0c5aa68db189.jpg'
+		},
+		{
+			url: '#4',
+			img: 'http://upload.jianshu.io/admin_banners/web_images/2474/44053de694a07f93b53582218e322c849be1a616.jpg'
+		},
+		{
+			url: '#5',
+			img: 'http://upload.jianshu.io/admin_banners/web_images/2295/2dbb6d6e2abd9f7e50c56adfff92f9613ad9c502.jpg'
+		}];
+
+		var slide = $('.slide-box');
+		var prev = $('.slider-prev');
+		var next = $('.slider-next');
+		var slideLeftData = $('.slide-left');
+		var slideRightData = $('.slide-right');
+		var slideIndicator = $('.slider-indicator');
+		var index = 0,slideAuto=null,isAnimate=false;
+		
+
+		var slideData = '';		// 数据
+		var pageIndicator = '';	// page的小点
+		$.each(data, function(index, val) {
+			slideData += "<li data-id="+index+"><a href="+val.url+"><img src="+val.img+"></a></li>";
+			// pageIndicator += "<i></i>";
+		});
+		slideLeftData.append(slideData); 	// 给左边盒子添加图片信息
+		slideRightData.append(slideData);	// 给右边盒子添加图片信息
+		$('.slide-left li').eq(0).show();	// 默认第一个显示
+		var rightLiHeight = slideRightData.find('li').height();	// 获取LI的高度
+		slideRightData.css('top', -rightLiHeight+'px'); //  改变当前第一个的top值 为一个 li 的高度
+		prev.on('click', prevPage); 	// 点击上一页
+		next.on('click', nextPage );	// 点击下一页
+		// 自动运行函数
+		var autoRun = function(){
+			slideAuto = setInterval(function(){
+				nextPage(index);
+			}, 3000)
+		}
+		autoRun();
+		// 上一页
+		function prevPage(){
+			if(isAnimate){ return;}
+			isAnimate = true;
+			index--;
+			if(index < 0){
+				index = data.length -1;
+			}
+			var lastLi = slideRightData.find('li').last();	// 找到最后一个
+			slideRightData.prepend(lastLi.clone()).css({top: -parseInt(rightLiHeight*2) }); // 复制并添加高度
+			slideRightData.animate({top: -rightLiHeight }, 500,function(){
+				lastLi.remove();
+				isAnimate = false;
+			});
+			slideLeftData.find('li').eq(index).fadeIn().siblings().fadeOut();
+		}
+		
+		// 下一页
+		function nextPage(){
+			if(isAnimate){ return;}
+			isAnimate = true;
+			index++;
+			if(index >= data.length){
+				index = 0;
+
+			}
+			var firstLi = slideRightData.find('li').first();
+			slideRightData.append(firstLi.clone());
+			slideRightData.animate({top:  -parseInt(rightLiHeight*2) }, 500,function(){	
+				slideRightData.css({top: -rightLiHeight}); 
+				firstLi.remove();
+				isAnimate = false;
+			});
+			slideLeftData.find('li').eq(index).fadeIn().siblings().fadeOut();
+		}
+		// 鼠标移入时
+		slide.on('mouseenter', function(){
+			$('.slide-btn').show();		// 显示左右的按钮
+			clearInterval(slideAuto); 	// 清除定时器
+		});
+		// 鼠标移出时
+		slide.on('mouseleave', function(){
+			$('.slide-btn').hide();		// 隐藏左右的按钮
+			autoRun();					// 继续运行定时器
+		});	
+	});
+
+
+
+
+	</script>
+</body>
+</html>
