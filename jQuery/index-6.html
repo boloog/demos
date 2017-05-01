@@ -82,7 +82,7 @@
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
 <script>
-    $.get('http://api.jirengu.com/weather.php').done(function(results) {
+    $.get('https://jirenguapi.applinzi.com/weather.php').done(function(results) {
         var data = JSON.parse(results);
         if(data.status === 'success'){
             $('.dayPictureUrl').attr('src', data.results[0].weather_data[0].dayPictureUrl );
