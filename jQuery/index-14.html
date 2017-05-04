@@ -81,7 +81,7 @@ for (var i = 0; i < 10000; i++) {
 function getImages(page, func){
     setTimeout(function(){
         var prePage = 20;
-        pageImg += page;
+        pageImg += 1;
         func(allImages.splice(pageImg, prePage));
 
     },500);
