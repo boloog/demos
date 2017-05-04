@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>瀑布流加载图片-滚动加载更多</title>
+	<style>
+		*{
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+	        font-size: 14px;
+	    }
+	    .clearfix:after{
+	        content: "";
+	        display: block;
+	        clear: both;
+	    }
+	    input,button,select,textarea{
+	        outline:none;border: none;
+	    }
+	    a{
+	        text-decoration: none;
+	    }
+	    ul,li{
+	        list-style: none;
+	    }
+	    img{
+	    	border: none;
+	    }
+	    .wrap {
+            width: 842px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+        }
+        .column{
+            margin: 10px;
+            width: 260px;
+            float: left;
+            /*background-color: #f00;*/
+        }
+        .column img{
+            width: 100%;
+            
+        }
+
+	</style>
+</head>
+<body>
+
+<div class="wrap clearfix">
+    <div class="column column1"></div>
+    <div class="column column2"></div>
+    <div class="column column3"></div>
+</div>
+<div class="load-more"></div>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script>
+
+var allImages = [],
+    wrap = $('.wrap'),
+    column1 = $('.column1'),
+    column2 = $('.column2'),
+    column3 = $('.column3'),
+    pageImg = 0;
+// 图片获取
+for (var i = 0; i < 10000; i++) {
+    var random = parseInt( Math.random() * 200 + 100, 10);
+    allImages.push('https://unsplash.it/300/'+random);
+}
+
+/**
+ * 获取图片 异步获取
+ * @param  page 页码
+ * @param  func 回调函数
+ * @return 自动获取图片 传页码返回数据
+ */
+function getImages(page, func){
+    setTimeout(function(){
+        var prePage = 20;
+        pageImg += page;
+        func(allImages.splice(pageImg, prePage));
+
+    },500);
+}
+
+
+
+var columnHeights = [0,0,0];
+// 计算每一行可以存放几个 item 总宽 / item宽度
+var countWidth =  Math.floor( $('.wrap').width() / $('.column').width()); 
+// 初始化添加 第一行高度的下标  
+for (var i = 0; i < countWidth; i++) {
+    columnHeights[i] = 0;
+}
+
+var count = 0;
+
+$(window).on('scroll', function(){
+  if( isVisible($('.load-more'))){
+getImages(pageImg, function(images){
+
+    var image = new Image();
+        image.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+        column1.append(image);
+        image.onload = function(){
+            columnHeights[0] += image.height;
+            image.src = images[0];
+            count ++;
+            loadNext(count+1);
+        }
+
+    var image2 = new Image();
+        image2.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+        image2.onload = function(){
+            image2.src = images[1];
+            columnHeights[1] += image2.height;
+            count ++;
+            loadNext(count+1);
+        }
+        column2.append(image2);
+
+    var image3 = new Image();
+        image3.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+        image3.onload = function(){
+            image3.src = images[2];
+            columnHeights[2] += image3.height;
+            count ++;
+            loadNext(count+1);
+        }
+        column3.append(image3);
+ 
+
+      
+    function loadNext(n){
+        if( n > 3 && images[n]){
+            var short = getShortest();
+            var col = $('.column'+(short+1));
+            var imageN = new Image();
+                imageN.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+            col.append(imageN);
+            imageN.onload = function(){
+                imageN.src = images[n-1];
+                columnHeights[short] += imageN.height;
+                count +=1;
+                loadNext(count+1);
+            }
+        }
+    }
+    function getShortest(){
+        var min = 0;
+        for (var i = 0; i < columnHeights.length; i++) {
+            if(columnHeights[i] < columnHeights[min]){
+                min = i;
+            }
+        }
+        return min;
+    }
+});
+  }
+});
+
+
+getImages(pageImg, function(images){
+
+    var image = new Image();
+        image.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+        column1.append(image);
+        image.onload = function(){
+            columnHeights[0] += image.height;
+            image.src = images[0];
+            count ++;
+            loadNext(count+1);
+        }
+
+    var image2 = new Image();
+        image2.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+        image2.onload = function(){
+            image2.src = images[1];
+            columnHeights[1] += image2.height;
+            count ++;
+            loadNext(count+1);
+        }
+        column2.append(image2);
+
+    var image3 = new Image();
+        image3.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+        image3.onload = function(){
+            image3.src = images[2];
+            columnHeights[2] += image3.height;
+            count ++;
+            loadNext(count+1);
+        }
+        column3.append(image3);
+ 
+
+      
+    function loadNext(n){
+        if( n > 3 && images[n]){
+            var short = getShortest();
+            var col = $('.column'+(short+1));
+            var imageN = new Image();
+                imageN.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
+            col.append(imageN);
+            imageN.onload = function(){
+                imageN.src = images[n-1];
+                columnHeights[short] += imageN.height;
+                count +=1;
+                loadNext(count+1);
+            }
+        }
+    }
+    function getShortest(){
+        var min = 0;
+        for (var i = 0; i < columnHeights.length; i++) {
+            if(columnHeights[i] < columnHeights[min]){
+                min = i;
+            }
+        }
+        return min;
+    }
+});
+
+/**
+ *  判断当前的是否可见 
+ */
+function isVisible($node){
+  var windowHeight = $(window).height(),    // 获取浏览器高度
+      scrollHeight = $(window).scrollTop(), // 获取滚动条的高度
+      offsetTop = $node.offset().top,     // 获取元素到最上方的高度
+      nodeHeight = $node.outerHeight(true); // 获取元素的高度
+  if( windowHeight+scrollHeight >= offsetTop && scrollHeight < offsetTop + nodeHeight){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

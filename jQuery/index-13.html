@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Barrel layout</title>
+	<style>
+		*{
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+	        font-size: 14px;
+	    }
+	    .clearfix:after{
+	        content: "";
+	        display: block;
+	        clear: both;
+	    }
+	    input,button,select,textarea{
+	        outline:none;border: none;
+	    }
+	    a{
+	        text-decoration: none;
+	    }
+	    ul,li{
+	        list-style: none;
+	    }
+	    img{
+	    	border: none;
+	    }
+	    .wrap {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        .item-box {
+            margin-bottom: 10px;
+            
+        }
+        .item-img{
+        	float: left;
+        	transition: all .6s ease-out;
+        }
+	</style>
+</head>
+<body>
+
+<div class="wrap"></div>
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script>
+/**
+ * [Barrel description]
+ * @type {init}			init 初始化 参数 1.渲染的盒子 2. 请求图片的个数
+ * @type {Object}		getImgUrls 获取图片 传入参数为图片的张数
+ * @type {String}		getRandColor 获取颜色十六进制字符
+ * @type {Object}		loadImg 创建图片对象并获取图片的宽高
+ * @type {Object}		render 处理获取图片 计算第行可以容下几个 item ，等比缩放图片 并占满盒子总宽
+ * @type {Object}		createItem 创建dom 把图片的内容渲染到页面上
+ */
+var Barrel = {
+  	init: function(box,number){
+  		this.wrap = $(box);					// 获取wrap盒子，后续获取总宽度和往里添加用
+  		this.itemList = [];						// 图片空列表 
+  		this.baseHeight = 140;					// 基本高度
+  		this.imgUrls = this.getImgUrls(number);		// imgUrls 返回的是 图片的 url 地址 参数为 多少张图片
+  		this.loadImg(this.imgUrls);				// 加载所有图片
+  	},
+  	loadImg: function(imgUrls) {
+        var _this = this;						// 这里的 this 指向 Barrel
+        $.each(imgUrls,function(idx, url){		// 循环数组 
+          	var img = new Image();				// 创建 img对象 
+          	img.src = url;						// 给src 添加 图片 url
+          	img.onload = function(){				// 图片加载完成后
+            	var originWidth = img.width,		// 获取当前图片的宽度
+                	originHeight = img.height,		// 获取当前图片的高度
+                	ratio = originWidth / originHeight;		// 宽度 / 高度 = 按比例放大[缩小]
+	            // 例图片大小为 267*156  	图片比例：宽度 / 高度 = 按比例放大[缩小]
+	            // 图片缩放高度是 140 那么图片要等比缩放，宽度就等于 140 * ratio 缩放比
+	            var imgInfo = {						// 图片信息保存
+	              	target: $(img),					// 当前img对象 
+	              	width: _this.baseHeight*ratio	// 这里计算的是 等比后的宽度
+        		};
+            _this.render(imgInfo);					// 传入每一张图片信息的宽度 计算每一张图片
+          	}
+        });
+    },
+    render: function(imgInfo){
+        var _this = this;						// 这里的 this 指向 Barrel
+        var itemList = this.itemList,			// 局部变量
+            rowWidth = 0,						// 每一个的宽度
+            rowHeight = 0,						// 每一个的高度
+            clientWidth = this.wrap.width(),	// wrap盒子总宽
+            lastImgInfo = imgInfo;				// 最后一个
+
+        this.itemList.push(imgInfo);			// 压入每一张图片 
+        $.each(itemList,function(idx, imgInfo){	// 循环获取 图片宽度 
+          	rowWidth += imgInfo.width;			// 图片所有的宽度相加
+	        if(rowWidth  > clientWidth ){		// 相加后的宽度如果大于wrap盒子总宽 
+	            itemList.pop();					// 取出最后一个 
+	            rowWidth = rowWidth - lastImgInfo.width;	// 计算出一行 后面剩余多少宽度
+	            rowHeight = clientWidth * _this.baseHeight / rowWidth;	// wrap盒子总宽 * 当前默认高度 / 剩余宽度 = 等比高度
+	            _this.createItem(rowHeight);	// 创建 item的高度为 等比高度
+	            _this.itemList = [];			// 一行循环完了清空当前 itemList 继续添加下一行
+	            _this.itemList.push(lastImgInfo);	// 把刚刚的最后一个再添加到下一行 
+          	}
+        });
+    },
+	getImgUrls: function(num) {
+        var width, height, urls = [];
+        for (var i = 0; i < num; i++) {
+          	width = Math.floor( Math.random() * 100 + 200 );		// 图片宽度为 100～150之间
+          	height = Math.floor( Math.random() * 50 + 150 );		// 图片宽度为 100～200之间
+          	urls.push("http://placehold.it/" + width + "x" + height + "/" + this.getRandColor() + "/000000" );
+        }
+        return urls;
+    },
+    createItem: function(rowHeight){			// 传入的是当前行 等比高度 和 一行显示的图片
+        var itemBox = $('<div class="item-box"></div>');	// 创建item-box ,保存计算好的 图片信息
+        $.each(this.itemList, function(idx, imgInfo){				// 把图片添加到 item-img 里面
+          	var imgCt = $('<div class="item-img"></div>'),
+              	img = imgInfo.target;			// 指向图片的构造方法或函数的引用
+              	img.height(rowHeight);			// 设置图片item的高度为 等比高度
+              	imgCt.append(img);				// 把图片添加到 item-img 中
+              	itemBox.append(imgCt);			// 把每个图片 item-img 添加到 item-box 内
+        });
+        this.wrap.append(itemBox);				// 渲染到页面上 完成木桶布局
+    },
+    getRandColor: function(){
+	    var str = '1234567890abcdef';
+	    var colorStr = '';
+	    for(var i =0; i < 6; i++){
+	        colorStr += str[ Math.floor(Math.random() * str.length) ];
+	    }
+	    return colorStr;
+	}
+}
+Barrel.init('.wrap',40);
+</script>
+</body>
+</html>
