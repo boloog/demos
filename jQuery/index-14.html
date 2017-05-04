@@ -107,8 +107,8 @@ getImages(pageImg, function(images){
         image.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
         column1.append(image);
         image.onload = function(){
-            columnHeights[0] += image.height;
             image.src = images[0];
+            columnHeights[0] += image.height;
             count ++;
             loadNext(count+1);
         }
@@ -170,8 +170,8 @@ getImages(pageImg, function(images){
         image.src = "https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif";
         column1.append(image);
         image.onload = function(){
-            columnHeights[0] += image.height;
             image.src = images[0];
+            columnHeights[0] += image.height;
             count ++;
             loadNext(count+1);
         }
