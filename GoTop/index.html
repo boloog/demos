@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Go Top</title>
+	<style>
+		*{
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+	        font-size: 14px;
+	    }
+        .ct{
+            width: 1000px;
+            height: 1000px;
+            margin: 0 auto;
+        }
+        .ct p{
+            line-height: 50px;
+            font-size: 30px;
+        }
+        .gotTop{
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            position: fixed;
+            right: 40px;
+            bottom: 20px;
+            display: none;
+            cursor: pointer;
+        }
+	</style>
+</head>
+<body>
+<div class="ct">
+<p>创建一个 GoTop 对象，当 new 一个 GotTop 对象则会在页面上创建一个回到顶部的元素，点击页面滚动到顶部。</p>
+<p>拥有以下属性和方法</p>
+<p>1. `ct` 属性，GoTop 对应的 DOM 元素的容器</p>
+<p>2. `target` 属性， GoTop 对应的 DOM 元素</p>
+<p>3. `bindEvent` 方法， 用于绑定事件</p>
+<p>4. `createNode` 方法， 用于在容器内创建节点</p>
+</div>
+<span class="gotTop">回到顶部</span>
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script>
+/**
+ * GotTop
+ */
+function GotTop(ct,top){
+    this.ct = $(ct);
+    this.target = $(top);
+}
+/**
+ * 绑定事件
+ */
+GotTop.prototype.bindEvent = function(){
+    var _this = this;
+    $(window).on('scroll', function(){
+        if($(window).scrollTop() > 200){
+            _this.target.show();
+        }else{
+            _this.target.hide();
+        }
+    });
+    this.target.on('click', function(){
+        $(window).scrollTop(0);
+    });
+}
+/**
+ * 创建返回按钮
+ */
+GotTop.prototype.createNode = function(){
+    this.ct.append(this.target);
+}
+
+var gottop = new GotTop('.ct', '.gotTop');
+gottop.createNode();
+gottop.bindEvent();
+</script>
+</body>
+</html>
