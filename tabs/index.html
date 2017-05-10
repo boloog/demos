@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>多个tab组件化原生实例</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: #333;
+      background-color: #fff;
+      font-size: 14px;
+    }
+    ul{
+      list-style: none;
+    }
+    .clearfix:after{
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+
+    .tabs{
+      margin: 20px 40px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px 6px 0 0;
+      padding: 15px;
+    }
+    .tabs-usage{
+      color: #959595;
+
+    }
+    .tab-nav{
+      margin-top: 10px;
+      border-bottom: 1px #e0e0e0 solid;
+    }
+    .tab-nav>li{
+      float: left;
+      color: #1e68b4;
+      font-size: 12px;
+      padding: 15px;
+      margin-right: 2px;
+      border-radius: 6px 6px 0 0;
+      margin-bottom: -1px;
+      cursor: pointer;
+    }
+    .tab-nav .active{
+      color: #343334;
+      border: 1px #e0e0e0 solid;
+      border-bottom-color: #fff;
+    }
+    .tab-nav>li:hover{
+      background-color: #eee;
+      border-bottom: 1px solid #eee;
+      color: #072e56;
+    }
+    .tab-content{
+      padding: 10px 0;
+    }
+    .tab-content>li{
+      color: #080800;
+      line-height: 1.4;
+      display: none;
+    }
+    .tab-content .active{
+      display: block;
+    }
+    .code{
+      margin-top: 10px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+<div class="tabs">
+  <p class="tabs-usage">多个tab组件化原生实例</p>
+  <ul class="tab-nav clearfix">
+    <li class="active">Home</li>
+    <li>Profile</li>
+    <li>Dropdown </li>
+  </ul>
+  <ul class="tab-content">
+    <li class="active">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</li>
+    <li>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</li>
+    <li>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</li>
+  </ul>
+</div>
+
+<div class="tabs">
+  <p class="tabs-usage">多个tab组件化原生实例</p>
+  <ul class="tab-nav clearfix">
+    <li class="active">Home</li>
+    <li>Profile</li>
+    <li>Dropdown </li>
+  </ul>
+  <ul class="tab-content">
+    <li class="active">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</li>
+    <li>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</li>
+    <li>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</li>
+  </ul>
+  <a href="https://github.com/boloog/demos/blob/master/tabs/index.html" class="code">多个tab组件化原生实例</a>
+</div>
+<script>
+  function Tab(tabs){
+    this.tabBox = tabs;
+    this.tabNav = this.tabBox.querySelector('.tab-nav');
+    this.tabLis = this.tabBox.querySelectorAll('.tab-nav>li');
+    this.tabContent = this.tabBox.querySelectorAll('.tab-content>li');
+    this.tabBind();
+  }
+  Tab.prototype.tabBind = function () {
+    var _this = this;
+    this.tabNav.addEventListener('click', function(e){
+      if(e.target.tagName.toLowerCase() === 'li'){
+        _this.tabLis.forEach(function(li) {
+          li.classList.remove('active');
+        })
+        e.target.classList.add('active');
+
+        var index = [].indexOf.call(_this.tabLis, e.target); // 获取下标索引
+        _this.tabContent.forEach(function(li) {
+          li.classList.remove('active');
+        })
+        _this.tabContent[index].classList.add('active');
+      }
+    });
+  }
+  var tab1 = new Tab(document.querySelectorAll('.tabs')[0]);
+  var tab2 = new Tab(document.querySelectorAll('.tabs')[1]);
+
+</script>
+</body>
+</html>
