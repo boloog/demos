@@ -105,14 +105,15 @@
   <a href="https://github.com/boloog/demos/blob/master/tabs/index.html" class="code">多个tab组件化原生实例</a>
 </div>
 <script>
-  function Tab(tabs){
+var tab = (function(){
+  function _Tab(tabs){
     this.tabBox = tabs;
     this.tabNav = this.tabBox.querySelector('.tab-nav');
     this.tabLis = this.tabBox.querySelectorAll('.tab-nav>li');
     this.tabContent = this.tabBox.querySelectorAll('.tab-content>li');
     this.tabBind();
   }
-  Tab.prototype.tabBind = function () {
+  _Tab.prototype.tabBind = function () {
     var _this = this;
     this.tabNav.addEventListener('click', function(e){
       if(e.target.tagName.toLowerCase() === 'li'){
@@ -129,8 +130,16 @@
       }
     });
   }
-  var tab1 = new Tab(document.querySelectorAll('.tabs')[0]);
-  var tab2 = new Tab(document.querySelectorAll('.tabs')[1]);
+  return {
+    init: function(ct){
+      var _this = this;
+      ct.forEach(function(el) {
+        new _Tab( el );
+      });
+    }
+  }
+})();
+tab.init(document.querySelectorAll('.tabs'));
 
 </script>
 </body>

@@ -106,13 +106,14 @@
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
 <script>
-  function Tab(tabs){
+var tab = (function(){
+  function _Tab(tabs){
     this.tabBox = tabs;
     this.tabLis = this.tabBox.find('.tab-nav>li');
     this.tabContent = this.tabBox.find('.tab-content>li');
     this.tabBind();
   }
-  Tab.prototype.tabBind = function () {
+  _Tab.prototype.tabBind = function () {
     var _this = this;
     this.tabLis.on('click', function() {
       var index = $(this).index();
@@ -120,8 +121,17 @@
       _this.tabContent.removeClass('active').eq(index).addClass('active');
     });
   }
-  var tab1 = new Tab($('.tabs').eq(0));
-  var tab2 = new Tab($('.tabs').eq(1));
+  return {
+    init: function(ct){
+      ct.each(function(index, el) {
+        new _Tab($(el));
+      });
+    }
+  }
+})();
+
+tab.init($('.tabs'));
+
 </script>
 </body>
 </html>
