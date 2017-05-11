@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery-slide-组件封装</title>
+	<style>
+		*{
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+	        font-size: 14px;
+	    }
+	    .clearfix:after{
+	        content: "";
+	        display: block;
+	        clear: both;
+	    }
+	    input,button,select,textarea{
+	        outline:none;border: none;
+	    }
+	    a{
+	        text-decoration: none;
+	        color: #fff;
+	    }
+	    ul,li{
+	        list-style: none;
+	    }
+	    img{
+	    	border: none;
+	    }
+	    .wrap{
+			width: 790px;
+			margin: 20px auto;
+	    }
+	    .slide-box{
+	    	height: 340px;
+	    	overflow: hidden;
+			position: relative;
+	    }
+	    .slide-ul{
+	    	width: 100%;
+	    	position: relative;
+	    }
+	    .slide-ul li{
+	    	width: 790px;
+	    	float: left;
+	    }
+	    .slide-ul li a{
+	    	display: block;
+	    }
+	    .slide-ul li a img{
+	    	width: 100%;
+	    }
+	  
+		.slider-indicator{
+	        position: absolute;
+	        z-index: 1;
+		    left: 50%;
+		    transform: translateX(-50%);
+		    bottom: 20px;
+		    font-size: 0;
+		    padding: 4px 8px;
+		    border-radius: 12px;
+		    background-color: rgba(255, 255, 255, 0.3);
+		}
+		.slider-indicator i{
+			display: inline-block;
+		    margin-right: 10px;
+		    width: 12px;
+		    height: 12px;
+		    border-radius: 100%;
+		    background-color: #fff;
+		    cursor: pointer;
+		}
+		.slider-indicator i.page-active{
+			background-color: #db192a;
+		}
+		.slide-btn{
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 1;
+			display: block;
+			width: 40px;
+			height: 50px;
+			line-height: 45px;
+			background-color: rgba(0,0,0,.2);
+			font-size: 20px;
+			text-align: center;
+			display: none;
+		}
+		.slider-prev{
+			left: 0;
+			border-top-right-radius: 6px;
+    		border-bottom-right-radius: 6px;
+		}
+		.slider-next{
+			right: 0;
+			border-top-left-radius: 6px;
+    		border-bottom-left-radius: 6px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="slide-box clearfix">
+			<ul class="slide-ul">
+				<li><a href="#1"><img src="//img12.360buyimg.com/da/jfs/t5461/273/1136247762/148978/6621fca4/590be47fN4d3c06cc.jpg" alt=""></a></li>
+				<li><a href="#2"><img src="//img1.360buyimg.com/da/jfs/t4579/148/4553651365/139809/72241aec/591011bbN94c20cbc.jpg" alt=""></a></li>
+				<li><a href="#3"><img src="//img1.360buyimg.com/da/jfs/t5416/135/1524060227/177040/86f18c04/59115ba9Nf5866e20.jpg" alt=""></a></li>
+				<li><a href="#4"><img src="//img12.360buyimg.com/da/jfs/t4654/307/4667427137/187024/a860ca9c/5912aae1N9c78dd77.jpg" alt=""></a></li>
+				<li><a href="#5"><img src="//img13.360buyimg.com/da/jfs/t5446/326/1713613609/147741/4f30f46a/5913c41cNdf2b15f2.jpg" alt=""></a></li>
+				<li><a href="#6"><img src="//img12.360buyimg.com/da/jfs/t3172/29/7532815266/78514/96c6e177/58ba3348N479cafe1.jpg" alt=""></a></li>
+				<li><a href="#7"><img src="//img1.360buyimg.com/da/jfs/t5122/78/482212244/90225/c4ccd3b7/59001933Nb4a11a00.jpg" alt=""></a></li>
+			</ul>
+			<div class="slider-indicator"></div>
+			<a href="javascript:void(0)" class="slide-btn slider-prev">&lt;</a>
+			<a href="javascript:void(0)" class="slide-btn slider-next">&gt;</a>
+		</div>
+	</div>
+
+	<div class="wrap">
+		<div class="slide-box clearfix">
+			<ul class="slide-ul">
+				<li><a href="#1"><img src="//img12.360buyimg.com/da/jfs/t5461/273/1136247762/148978/6621fca4/590be47fN4d3c06cc.jpg" alt=""></a></li>
+				<li><a href="#2"><img src="//img1.360buyimg.com/da/jfs/t4579/148/4553651365/139809/72241aec/591011bbN94c20cbc.jpg" alt=""></a></li>
+				<li><a href="#3"><img src="//img1.360buyimg.com/da/jfs/t5416/135/1524060227/177040/86f18c04/59115ba9Nf5866e20.jpg" alt=""></a></li>
+				<li><a href="#4"><img src="//img12.360buyimg.com/da/jfs/t4654/307/4667427137/187024/a860ca9c/5912aae1N9c78dd77.jpg" alt=""></a></li>
+				<li><a href="#5"><img src="//img13.360buyimg.com/da/jfs/t5446/326/1713613609/147741/4f30f46a/5913c41cNdf2b15f2.jpg" alt=""></a></li>
+				<li><a href="#6"><img src="//img12.360buyimg.com/da/jfs/t3172/29/7532815266/78514/96c6e177/58ba3348N479cafe1.jpg" alt=""></a></li>
+				<li><a href="#7"><img src="//img1.360buyimg.com/da/jfs/t5122/78/482212244/90225/c4ccd3b7/59001933Nb4a11a00.jpg" alt=""></a></li>
+			</ul>
+			<div class="slider-indicator"></div>
+			<a href="javascript:void(0)" class="slide-btn slider-prev">&lt;</a>
+			<a href="javascript:void(0)" class="slide-btn slider-next">&gt;</a>
+		</div>
+	</div>
+
+	<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+	<script>
+	var slide = (function(){
+		function _Slide(node){
+			this.slideBox = node;
+			this.prev = this.slideBox.find('.slider-prev');
+			this.next = this.slideBox.find('.slider-next');
+			this.slideUl = this.slideBox.find('.slide-ul');
+			this.slideLi = this.slideUl.find('li');
+			this.slideIndicator = this.slideBox.find('.slider-indicator');
+			this.pageIndex = 0;
+			this.slideAuto = null;
+			this.isAnimate = false;
+			this.pageIndicator = '';
+			this.init();
+			this.bindEvent();
+			this.autoRun();
+		}
+
+		_Slide.prototype.init = function(){
+			for (var i = 0; i < this.slideLi.length; i++) {
+				if(i<1){
+					this.pageIndicator += "<i class='page-active'></i>";
+				}else{
+					this.pageIndicator += "<i></i>";
+				}
+			}
+			this.slideIndicator.append(this.pageIndicator);
+			this.imgLength = this.slideUl.children().length;
+			this.cloneLi();
+			this.resetWidth();
+		}
+		_Slide.prototype.cloneLi = function(){
+			this.lastLi = this.slideUl.find('li').last();	
+			this.firstLi = this.slideUl.find('li').first();
+			this.slideUl.prepend(this.lastLi.clone());
+			this.slideUl.append(this.firstLi.clone());
+		}
+		_Slide.prototype.resetWidth = function(){
+			this.countLength = this.slideUl.children().length;
+			this.slideLiWidth = this.slideLi.width();
+			this.boxWidth = parseInt(this.countLength * this.slideLiWidth);
+			this.slideUl.css({'left': -this.slideBox.width(), width: this.boxWidth});
+		}
+		_Slide.prototype.bindEvent = function(){
+			var _this = this;
+			this.len = 1;
+			this.slideBox.on('mouseenter', function(){
+				_this.slideBox.find('.slide-btn').show();
+				clearInterval(_this.slideAuto);
+			});
+			this.slideBox.on('mouseleave', function(){
+				_this.slideBox.find('.slide-btn').hide();
+				_this.autoRun();
+			});
+			this.slideIndicator.on('click', 'i', function(){
+				var index = $(this).index();
+				$(this).addClass('page-active').siblings().removeClass('page-active');
+				if(_this.pageIndex > index){
+					_this.prevPage(_this.pageIndex - index);
+				}else{
+					_this.nextPage(index - _this.pageIndex);
+				}
+			});
+			this.prev.on('click', function(){
+				_this.prevPage(_this.len);
+			}); 
+			this.next.on('click', function(){
+				_this.nextPage(_this.len);
+			});
+
+		}
+		_Slide.prototype.prevPage = function(len){
+			var _this = this;
+			if(_this.isAnimate){ return;}
+			_this.isAnimate = true;
+			_this.pageIndex -= len;
+			_this.slideUl.animate({left: '+='+len*_this.slideLiWidth },function(){
+				if( _this.pageIndex < 0){
+					_this.pageIndex = _this.imgLength-1;
+					_this.slideUl.css({left: -_this.slideLiWidth*_this.imgLength});
+				}
+				_this.isAnimate = false;
+				_this.slidePage(_this.pageIndex);
+			});
+		}
+		_Slide.prototype.nextPage = function(len){
+			var _this = this;
+			if(_this.isAnimate){ return;}
+			_this.isAnimate = true;
+			_this.pageIndex += len;
+			_this.slideUl.animate({left: '-='+len*_this.slideLiWidth },function(){
+				if(_this.pageIndex > _this.imgLength -1 ){
+					_this.pageIndex = 0;
+					_this.slideUl.css({left: -_this.slideLiWidth});
+				}
+				_this.isAnimate = false;
+				_this.slidePage(_this.pageIndex);
+			});
+		}
+		_Slide.prototype.slidePage = function(){
+			this.slideIndicator.find('i').removeClass('page-active').eq(this.pageIndex).addClass('page-active');
+		}
+		_Slide.prototype.autoRun = function(){
+			var _this = this;
+			this.slideAuto = setInterval(function(){
+				_this.nextPage(_this.len);
+			}, 3000);
+		}
+		return {
+			init: function(ct){
+			    ct.each(function(index, el) {
+        			new _Slide($(el));
+      			});
+			}
+  		}
+	})();
+	slide.init($('.slide-box'));
+
+	</script>
+</body>
+</html>
