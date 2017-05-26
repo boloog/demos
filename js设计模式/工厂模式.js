@@ -1,5 +1,5 @@
 /**
- * 工厂模式1
+ * 工厂模式
  */
 function Animal(opts){
     var obj = new Object();

@@ -1,5 +1,5 @@
 /**
- * 在执行当前 Single 只获得唯一一个对象
+ * 在执行当前 Single 只获得唯一一个对象 
  */
 var Single = (function(){
     var instance;

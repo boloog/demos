@@ -1,4 +1,6 @@
-// 混合模式 = 原型模式 + 构造函数模式
+/**
+ * 混合模式 = 原型模式 + 构造函数模式
+ */
 function Animal(name, color){
     this.name = name;
     this.color = color;
