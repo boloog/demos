@@ -1,5 +1,5 @@
 {
-  "name": "gulp-demo",
+  "name": "bolong-gulp-demo1",
   "version": "1.0.0",
   "description": "使用 gulp 实现图片压缩、CSS 压缩合并、JS 压缩合并",
   "main": "gulpfile.js",
@@ -20,5 +20,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "boloog",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/boloog/demos/tree/master/gulp"
+  },
+  "keywords": [
+    "gulp",
+    "pack"
+  ]
 }
