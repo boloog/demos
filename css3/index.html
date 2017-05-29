@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>learning CSS3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .wrap {
+            max-width: 1000px;
+            margin: 30px auto;
+            text-align: center;
+        }
+        .box {
+            width: 118px;
+            height: 118px;
+            text-align: center;
+            line-height: 118px;
+            border: 1px solid #ccc;
+            margin: 40px;
+            float: left;
+            cursor: pointer;
+            transition: all .6s;
+        }
+        .box:nth-of-type(1) {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .box:nth-of-type(2) {
+            border-radius: 50%;
+        }
+
+        .box:nth-of-type(3) {
+            /*box-shadow:inset x-offset y-offset blur-radius spread-radius color*/
+            box-shadow: inset 0 0 10px #1000ff;
+        }
+        .box:nth-of-type(4) {
+            box-shadow: 0 0 10px #ff0000;
+        }
+        .box:nth-of-type(5) {
+            box-shadow: 10px 10px 10px #ff0000;
+        }
+        .box:nth-of-type(6):hover {
+            transform: scale(1.5, 1.5);
+        }
+        .box:nth-of-type(7):hover {
+            transform: scale(.7, .7);
+        }
+        .box:nth-of-type(8):hover {
+            transform: translateX(20px);
+            box-shadow: -5px 0 10px #ccc;
+        }
+        .box:nth-of-type(9):hover {
+            transform: translateY(20px);
+            box-shadow: 0 -6px 10px #ccc;
+        }
+        .box:nth-of-type(10):hover {
+            transform: rotate(360deg)
+        }
+        .box:nth-of-type(11):hover {
+            transform-origin: 20px;
+            transform: rotate(-80deg);
+        }
+        .box:nth-of-type(12):hover .d {
+            transition: all .6s;
+            background: red;
+            transform: perspective( 600px) translate3d(10px, 10px, 30px);
+        }
+        .box:nth-of-type(13):hover .d {
+            transition: all .6s;
+            background: red;
+            transform: perspective( 600px) rotateX(60deg);
+        }
+        .box:nth-of-type(14):hover .d {
+            transition: all .6s;
+            background: red;
+            transform: perspective( 600px) rotateY(60deg);
+        }
+        .box:nth-of-type(15):hover .d {
+            transition: all .6s;
+            background: red;
+            transform: perspective( 600px) rotateZ(60deg);
+        }
+        .box:nth-of-type(16){
+            /* 起始点位置 渐变的方向 起点颜色 终点颜色 */
+            /*linear-gradient( [<point> || <angle>,]? <stop>, <stop> [, <stop>]* )*/
+            background: linear-gradient(black, white); 
+            color: #fff;
+        }
+        .box:nth-of-type(17){
+            background: linear-gradient( to left, white, black);
+            color: #fff;
+        }
+        .box:nth-of-type(18){
+            background: linear-gradient(160deg, black, white, black);
+            color: #fff;
+        }
+        .box:nth-of-type(19){
+            background: radial-gradient(circle closest-side, black, white, black);
+            color: #fff;
+        }
+        .box:nth-of-type(20){
+             background: repeating-radial-gradient(white, black 5px, black 5px, black 10px);
+             color: #fff;
+        }
+        .box:nth-of-type(21){
+             border-radius: 50%;
+        }
+        .box:nth-of-type(21):hover{
+            transition: 1s;
+            border-radius: 6px;
+            background: black;
+            color: #fff;
+        }
+        .box:nth-of-type(22){
+             border:none;
+             -webkit-animation: heart .6s infinite;
+             -o-animation: heart .6s infinite;
+             animation: heart .6s infinite;
+        }
+        @keyframes heart{
+            from { transform: none; }
+            to { transform: scale(1.2); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h3>This is my demo for learning CSS3</h3>
+        <div class="box">圆角</div>
+        <div class="box">圆形</div>
+        <div class="box">内阴影</div>
+        <div class="box">外阴影</div>
+        <div class="box">X-Y阴影</div>
+        <div class="box">2D-放大</div>
+        <div class="box">2D-缩小</div>
+        <div class="box">2D-X偏移</div>
+        <div class="box">2D-Y偏移</div>
+        <div class="box">2D-360度旋转</div>
+        <div class="box">2D-定角旋转</div>
+        <div class="box">
+            <div class="d">3D-移动</div>
+        </div>
+         <div class="box">
+            <div class="d">3D-X旋转</div>
+        </div>
+        <div class="box">
+            <div class="d">3D-Y旋转</div>
+        </div>
+        <div class="box">
+            <div class="d">3D-Z旋转</div>
+        </div>
+        <div class="box">背景色渐变1</div>
+        <div class="box">背景色渐变2</div>
+        <div class="box">背景色渐变3</div>
+        <div class="box">背景色渐变4</div>
+        <div class="box">背景色渐变5</div>
+        <div class="box">过渡效果</div>
+        <div class="box"><img src="http://lea.verou.me/css-4d/img/heart.svg" alt=""></div>
+    </div>
+</body>
+</html>
