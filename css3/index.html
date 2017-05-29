@@ -26,6 +26,16 @@
             cursor: pointer;
             transition: all .6s;
         }
+        h3 { 
+            font: bold 200% Consolas, Monaco, monospace;
+            border-right: 2px solid;
+            width: 33ch;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 20s steps(33, end), blink-caret .5s step-end infinite alternate;
+        }
+        @keyframes typing { from { width: 0;} }
+        @keyframes blink-caret { 50% { border-color: transparent; } }
         .box:nth-of-type(1) {
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -126,7 +136,6 @@
             from,to { transform: scale(.8); }
             50% { transform: scale(1); }
         }
-
     </style>
 </head>
 <body>

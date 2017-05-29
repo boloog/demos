@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>linear-gradient</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            height: 100%;
+        }
+        .box{
+            height: 100%;
+            background: url(b.jpg) top center no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        .box:after{
+            content: "";
+            display: block;
+            clear: both;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient( to left, rgba(250, 143, 169, .4), rgba(46, 105, 232, .4));
+        }
+        .box:before{
+            content: "";
+            display: block;
+            clear: both;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient( -45deg, rgba(81, 160, 138, .2), rgba(255, 139, 0, .4));
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+</html>
