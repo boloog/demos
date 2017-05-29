@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>loading</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            background: #09a9f1;
+        }
+        .wrap {
+            max-width: 600px;
+            margin: 60px auto 0;
+        }
+        .box{
+            height: 100px;
+        }
+        .loading,.loading::after,.loading::before{
+            animation: loading 1.2s infinite ease;
+        }
+        .loading{
+            width: 10px;
+            height: 60px;
+            background: #fff;
+            position: relative;
+            animation-delay: .3s;
+        }
+        .loading::after{
+            content: "";
+            display: block;
+            clear: both;
+            width: 10px;
+            height: 60px;
+            position: absolute;
+            left: 30px;
+            top: 0;
+            background: #fff;
+            animation-delay: .6s;
+        }
+        .loading::before{
+            content: "";
+            display: block;
+            clear: both;
+            width: 10px;
+            height: 60px;
+            position: absolute;
+            left: 60px;
+            top: 0;
+            background: #fff;
+            animation-delay: .9s;
+        }
+        @keyframes loading{
+            0%,100%{
+                box-shadow: 0 0 #fff;
+                height: 60px;
+            }
+            20%{
+                box-shadow: 0 -20px #fff;
+                height: 80px;
+            }
+        }
+        .loading2{
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border-top: 15px solid rgba(255, 255, 255, 0.2);
+            border-right: 15px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 15px solid rgba(255, 255, 255, 0.2);
+            border-left: 15px solid #ffffff;
+            animation: loading2 1s infinite linear;
+        }
+        @keyframes loading2{
+            from {
+                transform: rotate(0);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loading3{
+            width: 260px;
+            height: 10px;
+            border-radius: 5px;
+            background: #006aff;
+            margin-top: 90px;
+            position: relative;
+        }
+        .loading3::after{
+            content: "";
+            display: block;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            left: -30px;
+            top: -10px;
+            animation: loading3 3s infinite ease-in;
+        }
+        @keyframes loading3{
+            from,to {
+                left: -30px;
+            }
+            50% {
+                left: 98%;
+                background: #35ddff;
+            }
+        }
+        .loading4 span{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            background: #fff;
+            animation: loading4 1.04s infinite cubic-bezier(0.4, 0, 0.2, 1);;
+        }
+        .loading4 span:nth-child(1){
+            animation-delay: .13s;
+        }
+        .loading4 span:nth-child(2){
+            animation-delay: .26s;
+        }
+        .loading4 span:nth-child(3){
+            animation-delay: .39s;
+        }
+        .loading4 span:nth-child(4){
+            animation-delay: .52s;
+        }
+        .loading4 span:nth-child(5){
+            animation-delay: .65s;
+        }
+        @keyframes loading4{
+            from{
+                opacity: 0;
+                transform: scale(.3);
+            }
+            to{
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="box">
+            <div class="loading"></div>
+        </div>
+        <div class="box">
+            <div class="loading2"></div>
+        </div>
+        <div class="box">
+            <div class="loading3"></div>
+        </div>
+        <div class="box">
+            <div class="loading4">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
