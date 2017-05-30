@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Media query</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html{
+            font-size: 20px;
+        }
+        @media (min-width: 1200px){
+            body{
+                background-color: red;
+                color: #fff;
+            }
+        }
+        @media (max-width:1200px) and (min-width: 901px){
+            body{
+                background-color: green;
+                font-size: 18px;
+            }
+        }
+        @media (max-width:900px) and (min-width: 600px){
+            body{
+                background-color: yellow;
+                font-size: 16px;
+            }
+        }
+        @media (max-width: 600px){
+            body{
+                background-color: #ccc;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+1. 在页面宽度> 1200px 时页面背景为红色 <br/>
+2. 在页面1200px>=宽度> 900px  时页面背景为绿色<br/>
+3. 在页面900px>=宽度> 600px  时页面背景为黄色<br/>
+4. 宽度<=600px 背景为灰色<br/>
+</body>
+</html>
