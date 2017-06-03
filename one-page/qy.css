@@ -1,0 +1,415 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+ul, li {
+    list-style:none;
+}
+a {
+    text-decoration: none;
+}
+body {
+    font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-align: center;
+}
+img.avatar {
+    border-radius: 50%;
+}
+header {
+    width: 100%;
+    background: url(http://book.jirengu.com/jirengu-inc/jrg-tehui/homework/%E8%8B%A5%E6%84%9A/16/img/header-bg.jpg) center center no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    position: relative;
+}
+.clearfix {
+    *zoom:1;
+}
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+@font-face {
+  font-family: 'iconfont';  /* project id 275856 */
+  src: url('//at.alicdn.com/t/font_r8nanzizfxenrk9.eot');
+  src: url('//at.alicdn.com/t/font_r8nanzizfxenrk9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_r8nanzizfxenrk9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_r8nanzizfxenrk9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_r8nanzizfxenrk9.svg#iconfont') format('svg');
+}
+.iconfont {
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.nav {
+    background-color: #222;
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 999;
+}
+.container {
+    max-width: 1170px;
+    margin: 0 auto;
+}
+.container h1 {
+    float: left; 
+}
+.container h1 a {
+    display: inline-block;
+    padding: 15px;
+    font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;
+    color: #fed136;
+}
+.nav-menu {
+    float: right;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.nav-menu li {
+    float: left;
+}
+.nav-menu li a {
+    display: inline-block;
+    padding: 10px 15px;
+    color: #fff;
+
+}
+.nav-menu li a:hover {
+    background-color: #fed136;
+    border-radius: 4px;
+    transition: all .3s ease;
+}
+.nav-menu li a.hover {
+    background-color: #fed136;
+    border-radius: 4px;
+}
+
+.intro-text {
+    padding-top: 300px;
+    padding-bottom: 200px;
+    color: #fff;
+}
+.intro-lead-in {
+    font-style: italic;
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 25px;
+}
+.intro-heading {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 60px;
+    margin-bottom: 50px;
+}
+.btn {
+    display: inline-block;
+    padding: 20px 40px;
+    color: #fed136;
+    border-radius: 4px;
+    border: 1px solid #fed136;
+    transition: all .3s ease;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #fed136;
+    color: #fff;
+}
+.btn-sub {
+    background-color: #fed136;
+    color: #fff;
+}
+.wrap {
+   padding: 130px 0; 
+   overflow: hidden;
+}
+#journal {
+    background-color: #fff;
+}
+
+.journal-content h2 {
+    font-size: 40px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    
+}
+.journal-content .sub-title {
+    font-size: 16px;
+    text-transform: none;
+    font-style: italic;
+    margin-bottom: 75px;
+    color: #777;
+}
+.container-list {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.container-list li {
+    width: 390px;
+    float: left;
+    
+}
+.container-list li:nth-child(2) {
+    padding: 0 15px;
+}
+.container-list .bk-color {
+    display: inline-block;
+    width: 110px;
+    height: 110px;
+    background-color: #fed136;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border-radius: 50%;
+    font-size: 60px;
+    color: #fff;
+    line-height: 110px;
+}
+.container-list h4 {
+    margin: 15px 0;
+    text-transform: none;
+}
+.container-list p {
+    font-size: 16px;
+    text-transform: none;
+    font-style: italic;
+    color: #777;
+    line-height: 1.5;
+}
+#collection {
+    background-color: #f7f7f7;
+}
+#collection .container-list li {
+    width: 360px;
+    float: left;
+    padding: 0 20px;
+    margin-bottom: 30px;
+}
+.container-list a {
+    position: relative;
+    display: block;
+}
+.container-list a span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(254,209,54,.9);
+    transition: all ease .5s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+.icon-plus{
+    font-size: 50px;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    margin-left: -25px;
+}
+.container-list a span:hover {
+    opacity: 1;
+}
+
+.container-list a img {
+    width: 100%;
+}
+.portfolio-caption {
+    padding: 25px;
+    background-color: #fff; 
+}
+.portfolio-caption h4 {
+    margin: 0 auto;
+    text-transform: none;
+}
+.time-line li {
+    text-align: center;
+    position: relative;
+    padding: 0 0 100px 0;
+}
+.time-line img {
+    border-radius: 50%;
+    /*border: 7px solid #f1f1f1;*/
+    box-shadow: 0 0 14px  #777;
+    width: 150px;
+    height: 150px;
+}
+.timeline-end {
+    border-radius: 50%;
+    box-shadow: 0 0 14px  #777;
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -75px;
+    background-color: #fed136;
+}
+.timeline-end h4{
+    margin-top: 40px;
+    font-size: 18px;
+    line-height: 26px;
+    color: #fff;
+}
+.time-line li::after {
+    content: "";
+    display: block;
+    clear: both;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 2px solid #f1f1f1;
+    height: 100%;
+    z-index: -1;
+    margin-left: 1px;
+}
+.timeline-panel {
+    position: absolute;
+    left: 130px;
+    top: 0;
+    width: 30%;
+    text-align: right;
+}
+.timeline-panel h4 {
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+    line-height: 26px;
+
+}
+.timeline-panel p {
+    font-size: 12px;
+    color: #5f6680;
+    line-height: 24px;
+}
+.time-line li:nth-child(even) .timeline-panel {  
+    left: 50%;
+    margin-left: 130px;
+    text-align: left;
+
+}
+#other {
+    background-color: #f7f7f7;
+}
+#other .container-list li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+    position: relative;
+}
+.other-list {
+    /*overflow: hidden;*/
+    margin-bottom: 50px;
+    text-align: center;
+}
+.other-list li {
+    width: 360px;
+    /*float: left;*/
+    display: inline-block;
+}
+.other-list li:nth-child(2) {
+    padding: 0 15px;
+}
+.other-list img {
+    width: 225px;
+    box-shadow: 0 0 14px  #777;
+}
+.other-list h4 {
+    font-size: 18px;
+    margin-top: 25px;
+}
+.other-list p {
+    font-size: 14px;
+    color: #777;
+    line-height: 30px;
+}
+.social-btn {
+    display: inline-block;
+    margin-top: 15px;
+}
+.social-buttons-a {
+    display: inline-block;
+    background-color: #222;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    font-size: 20px;
+    line-height: 40px;
+    color: #fff;
+    outline: 0;
+    transition: all .3s;
+    margin: 0 5px;
+}
+.social-buttons-a:hover {
+    background-color: #fed136;
+}
+.large {
+    font-size: 16px;
+    line-height: 30px;
+    width: 70%;
+    margin: 0 auto;
+    color: #777;
+}
+.clients {
+    padding: 50px 0;
+    overflow: hidden;
+}
+.clients a {
+    width: 25%;
+    float: left;
+}
+#works {
+    background: #222 url(http://book.jirengu.com/jirengu-inc/jrg-tehui/homework/%E8%8B%A5%E6%84%9A/16/img/map-image.png) center center no-repeat;
+}
+#works h2 {
+    color: #fff;
+}
+
+.contact-form {
+    overflow: hidden;
+}
+.contact-form div {
+    width: 50%;
+    float: left;
+}
+.form-input {
+    width: 100%;
+}
+.input-style {
+    width: 80%;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    border: none;
+}
+.form-text {
+    width: 80%;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    border: none;
+    height: 176px;
+}
+footer {
+    padding: 25px 0;
+    text-align: center; 
+    overflow: hidden;
+}
+footer .copy,footer .share,footer .links{
+    width: 33.33%;
+    float: left;
+    line-height: 40px;
+}
+.links a {
+    color: #fed136;
+}
+
