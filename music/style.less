@@ -1,4 +1,4 @@
-@bgcolor: #aacaef;
+@bgcolor: linear-gradient(45deg, #ebc45c 0%, #4bb0ca 100%);
 @font-size: 24px;
 .box-shadow (@x: 0, @y: 20px, @blur: 40px, @color: #5b6b77) {
   box-shadow: @arguments;
@@ -10,8 +10,10 @@
     display: block;
     clear: both;
 }
-.animate{
-    animation: all 1s;
+.ov-hd{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 @share: 40px;
 @like: @share * 2;
@@ -20,6 +22,9 @@
     margin: 0;
     padding: 0;
     box-sizing: content-box;
+}
+html{
+    height: 100%;
 }
 body{
     background: @bgcolor;
@@ -68,7 +73,6 @@ body{
     &.active .picture{
         display: none;
     }
-    .animate;
     .music-list{
         position: absolute;
         left: 14px;
@@ -133,13 +137,15 @@ body{
         width: 600px;
         color: #000;
         h3{
+            .ov-hd;
             font-size: 38px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
             color: #323347;
         }
         p{
+            &:nth-child(1){
+                .ov-hd;
+                width: 80%;
+            }
             &:nth-child(2){
                 font-size: 18px;
             }
@@ -156,6 +162,7 @@ body{
         .lyric-line{
             color: #fff;
             font-size: 14px;
+            text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000;
             &.active{
                 color: #ffd300;
                 font-size: 20px;
@@ -169,16 +176,16 @@ body{
         line-height: 140px;
         padding: 0 50px;
         position: relative;
-        .animate;
         &.active{
             margin-top: 10px;
         }
         .progress{
-            width: 100%;
+            width: 600px;
             height: 8px;
             background-color: rgba(159, 157, 156, .6);
             position: relative;
             border-radius: 6px;
+            cursor: pointer;
             .progress-line{
                 height: 8px;
                 background-color: #c70c0c;

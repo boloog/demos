@@ -27,7 +27,7 @@
                     <s class="progress-handle"></s>
                 </div>
             </div>
-            <span class="time current-time"></span>
+            <span class="time current-time">0:00</span>
             <i class="music-icon p-n-btn prev">&#xe62a;</i>
             <i class="music-icon play-btn">&#xe682;</i>
             <i class="music-icon p-n-btn next">&#xe62d;</i>
@@ -44,7 +44,7 @@
                 <!--<i class="music-icon">&#xe63c;</i>
                 <i class="music-icon">&#xe63b;</i>
                 -->
-            <span class="time duration-time">4:40</span>
+            <span class="time duration-time">0:00</span>
     </div>
     </div>
 </div>
@@ -68,28 +68,21 @@
 
 <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
 <script>    
-// 获取专辑分类
-// $.get('http://api.jirengu.com/fm/getChannels.php').done(function(channelInfo){
-// // console.log(channelInfo);
 
+var AlbumClass = [{"name":"\u6f2b\u6b65\u6625\u5929","channel_id":"public_tuijian_spring"},{"name":"\u79cb\u65e5\u79c1\u8bed","channel_id":"public_tuijian_autumn"},{"name":"\u6e29\u6696\u51ac\u65e5","channel_id":"public_tuijian_winter"},{"name":"\u70ed\u6b4c","channel_id":"public_tuijian_rege"},{"name":"KTV\u91d1\u66f2","channel_id":"public_tuijian_ktv"},{"name":"Billboard","channel_id":"public_tuijian_billboard"},{"name":"\u6210\u540d\u66f2","channel_id":"public_tuijian_chengmingqu"},{"name":"\u7f51\u7edc\u6b4c\u66f2","channel_id":"public_tuijian_wangluo"},{"name":"\u5f00\u8f66","channel_id":"public_tuijian_kaiche"},{"name":"\u5f71\u89c6","channel_id":"public_tuijian_yingshi"},{"name":"\u968f\u4fbf\u542c\u542c","channel_id":"public_tuijian_suibiantingting"},{"name":"\u7ecf\u5178\u8001\u6b4c","channel_id":"public_shiguang_jingdianlaoge"},{"name":"70\u540e","channel_id":"public_shiguang_70hou"},{"name":"80\u540e","channel_id":"public_shiguang_80hou"},{"name":"90\u540e","channel_id":"public_shiguang_90hou"},{"name":"\u706b\u7206\u65b0\u6b4c","channel_id":"public_shiguang_xinge"},{"name":"\u513f\u6b4c","channel_id":"public_shiguang_erge"},{"name":"\u65c5\u884c","channel_id":"public_shiguang_lvxing"},{"name":"\u591c\u5e97","channel_id":"public_shiguang_yedian"},{"name":"\u6d41\u884c","channel_id":"public_fengge_liuxing"},{"name":"\u6447\u6eda","channel_id":"public_fengge_yaogun"},{"name":"\u6c11\u8c23","channel_id":"public_fengge_minyao"},{"name":"\u8f7b\u97f3\u4e50","channel_id":"public_fengge_qingyinyue"},{"name":"\u5c0f\u6e05\u65b0","channel_id":"public_fengge_xiaoqingxin"},{"name":"\u4e2d\u56fd\u98ce","channel_id":"public_fengge_zhongguofeng"},{"name":"DJ\u821e\u66f2","channel_id":"public_fengge_dj"},{"name":"\u7535\u5f71","channel_id":"public_fengge_dianyingyuansheng"},{"name":"\u8f7b\u677e\u5047\u65e5","channel_id":"public_xinqing_qingsongjiari"},{"name":"\u6b22\u5feb\u65cb\u5f8b","channel_id":"public_xinqing_huankuai"},{"name":"\u751c\u871c\u611f\u53d7","channel_id":"public_xinqing_tianmi"},{"name":"\u5bc2\u5bde","channel_id":"public_xinqing_jimo"},{"name":"\u5355\u8eab\u60c5\u6b4c","channel_id":"public_xinqing_qingge"},{"name":"\u8212\u7f13\u8282\u594f","channel_id":"public_xinqing_shuhuan"},{"name":"\u6175\u61d2\u5348\u540e","channel_id":"public_xinqing_yonglanwuhou"},{"name":"\u4f24\u611f","channel_id":"public_xinqing_shanggan"},{"name":"\u534e\u8bed","channel_id":"public_yuzhong_huayu"},{"name":"\u6b27\u7f8e","channel_id":"public_yuzhong_oumei"},{"name":"\u65e5\u8bed","channel_id":"public_yuzhong_riyu"},{"name":"\u97e9\u8bed","channel_id":"public_yuzhong_hanyu"},{"name":"\u7ca4\u8bed","channel_id":"public_yuzhong_yueyu"}];
 
-// });
-
-// http://dmtload.51kf.cc/
-// http://book.jirengu.com/jirengu-inc/jrg-vip9/members/%E6%9D%A8%E7%84%B6/FM/js/merg.js
-var lyricArr = [];
-var  AlbumClass= ['public_tuijian_chengmingqu', 'public_fengge_liuxing', 'public_tuijian_wangluo', ]
 var sid = '';
 var fmUrl = 'https://jirenguapi.applinzi.com/fm/';
-
 var audio = $('#audio')[0];
+var lyricBox = $('.lyric-box');
+
+
 function getSong(){
-    $.get(fmUrl+"getSong.php", {channel: 6},function (data) {
-        console.log( data )
-        if(data.song[0].url === null){
+    $.get(fmUrl+"getSong.php", {channel: 'public_shiguang_80hou'},function (data) {
+        if(data.song[0].url === null && data.song[0].artist === null && data.song[0].title === null){
             getSong();
         }else{
-            var musicName = '<h3>'+data.song[0].title+'</h3><p>演唱者：'+data.song[0].artist+' </p><p>来源：Baidu流行榜</p>';
+            var musicName = '<h3>'+data.song[0].title+'</h3><p>演唱者：'+data.song[0].artist+' </p><p>来源：80后音乐榜单</p>';
             $('#audio').attr({'src': data.song[0].url , 'autoplay':'true'});
             $('.album-box').html(musicName);
             $('#picture').attr('src', data.song[0].picture);
@@ -107,6 +100,7 @@ getSong();
 
 // 获取歌词
 function createArrMap() {
+    var lyricArr = [];
     $.post(fmUrl+"getLyric.php", {sid: sid },function (data) {
         var lyric = JSON.parse(data).lyric;
         var lines = lyric.split('\n'),  // 把歌词以空格分开
@@ -121,7 +115,7 @@ function createArrMap() {
             var seconds = time[0][1] * 600 + time[0][2] * 60 + time[0][4] * 10 + time[0][5] * 1;  //将时间换算为秒
             lyricArr.push([seconds, lyric[1]] );      //将整个歌词保存至二维数组中，形式为[时间，歌词]；     
         });
-        readyLyric(lyricArr)
+        readyLyric(lyricArr);
     });
 }
 
@@ -138,30 +132,32 @@ $('.lyric').on('click', function(){
 })
 
 
-var curTime = audio.currentTime;
-var content = audio.duration;
-
-var lyricBox = $('.lyric-box');
 function readyLyric(lyric){
     lyricBox.empty();
-
-    var html = '<div class="lyric-ani">';
     var lyricLength = 0;
-
+    var html = '<div class="lyric-ani" data-height="20">';
     lyric.forEach(function(element,index) {
-        html += '<p class="lyric-line" data-id="'+index+'" data-time="' + element[0] + '">&nbsp;' + element[1] + '&nbsp;</p>';
+        var ele = element[1] === undefined ? '^_^歌词错误^_^' :  element[1];
+        html += '<p class="lyric-line" data-id="'+index+'" data-time="' + element[0] + '">&nbsp;' +  ele + '&nbsp;</p>';
         lyricLength++;
     });
     html += '</div>';
+    
+
     lyricBox.append(html);
 
-    // 歌词高度
-    var lyricP = lyricBox.find('.lyric-ani p');
+    // 歌词高度 第一个p清空
+    var lyricH = $('.lyric-ani').data('height'),
+        lyricP = lyricBox.find('.lyric-ani p');
     lyricP.eq(0).html("&nbsp;&nbsp;");
-  
-    $('#audio').on('timeupdate', function(){
-        
+    var curTime = audio.currentTime;
+    var content = audio.duration; //写里面
+
+  audio.ontimeupdate = function(){
+      
+
         if(isNaN(content)){ content = audio.duration;  }
+        
         for (var i = 0; i < lyricLength; i++) {                          //遍历歌词下所有的li
             var curT = lyricP.eq(i).data("time");      //获取当前li存入的当前一排歌词时间
             var nexT = lyricP.eq(i + 1).data("time");
@@ -169,16 +165,16 @@ function readyLyric(lyric){
             if(curTime > nexT){
                 lyricP.removeClass('active');
                 $('.lyric-ani').css({
-                    'height': 20*lyricLength+'px',
-                    'marginTop': - parseInt(20 * i - 100)+'px',
-                    "transition": "1s"
+                    'height': lyricH*lyricLength+'px',
+                    'marginTop': - parseInt(lyricH * i - 100)+'px',
+                    "transition": "6s"
                 });
             }
             if( (curTime > curT) && (curTime < nexT)){
                 lyricP.eq( i ).addClass("active");
             }
         }
-
+  
         if(parseInt(content - (parseInt(content / 60) * 60)) < 10) {
             $('.duration-time').text(parseInt(content / 60) + ':0' + parseInt(content - (parseInt(content / 60) * 60)));
         } else {
@@ -191,17 +187,17 @@ function readyLyric(lyric){
             $('.current-time').text(parseInt(curTime / 60) + ':' + parseInt(curTime - (parseInt(curTime/ 60) * 60)))
         }
 
-        var length = parseInt(curTime / content * 100);
+        var length = curTime / content * 100;
         $(".progress-line").width(length + '%');
         $('.progress-line').css({
             "width" : length +'%',
-            "transition": "1s"
-        })
+            "transition": ".2s"
+        });
 
         audio.onended = function() {
             getSong();
         };
-    });
+  }
 }
  
 // 下一曲
@@ -210,7 +206,6 @@ function readyLyric(lyric){
  })
 // 暂停
 $('.play-btn ').on('click', function(){
-
     if (audio.paused) {
         audio.play();
         $('.play-btn').html('&#xe682;');
@@ -218,8 +213,6 @@ $('.play-btn ').on('click', function(){
         audio.pause();
         $('.play-btn').html('&#xe602;')
     }
-
-
 });
 // 喜欢
 var like = true;
@@ -239,7 +232,7 @@ $('.volume-bar').on('mousemove', function(e){
     var volume = left / len;
    
     if(left > 0 && left <= len){
-        $('.volume-line').css('width', volume *100 +'%');
+        $('.volume-line').css('width', volume * 100 +'%');
         audio.volume = volume;
     }
     if(volume > 0.5){
@@ -252,7 +245,17 @@ $('.volume-bar').on('mousemove', function(e){
 
 })
 
+// 设置音乐进度
+$('.progress').on('click', function(e){
+    var len = $(this).width(),
+        left = e.pageX - $(this).offset().left,
+        volume = left / len;
 
+    if(volume <= 1 || volume >= 0){
+        audio.currentTime =  volume * audio.duration;
+         $('.progress-line').css('width', volume *100 +'%');
+    }
+})
 </script>
 </body>
 </html>
