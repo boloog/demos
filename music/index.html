@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="referrer" content="no-referrer">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>my music</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<div class="music-box">
+    <!--<i class="music-icon music-list">&#xe61a;</i>-->
+    <div class="img-filter"></div>
+    <div class="layer-ct"></div>
+    <img src="https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif" class="picture" id="picture">
+    <div class="music-content">
+        <i class="music-icon lyric-like-share lyric">&#xe629;</i>
+        <i class="music-icon lyric-like-share like">&#xe601;</i>
+        <i class="music-icon lyric-like-share share">&#xe624;</i>
+        <div class="album-box"></div>
+        <div class="lyric-box"></div>
+        <div class="player-box">
+            <div class="progress">
+                <div class="progress-line">
+                    <s class="progress-handle"></s>
+                </div>
+            </div>
+            <span class="time current-time"></span>
+            <i class="music-icon p-n-btn prev">&#xe62a;</i>
+            <i class="music-icon play-btn">&#xe682;</i>
+            <i class="music-icon p-n-btn next">&#xe62d;</i>
+            
+            
+            <i class="music-icon vol">&#xe63d;</i>
+            <div class="volume-bar">
+                <span class="volume-line">
+                    <span class="volume-handle"></span>
+                </span>
+                
+            </div>
+
+                <!--<i class="music-icon">&#xe63c;</i>
+                <i class="music-icon">&#xe63b;</i>
+                -->
+            <span class="time duration-time">4:40</span>
+    </div>
+    </div>
+</div>
+<audio src="" id="audio" autoplay>您的浏览器不支持 audio 标签。</audio>
+
+    <!--https://github.com/laucher/laucher.github.io/blob/master/music/js/music.js-->
+    <!--https://www.w3cschool.cn/htmltags/av-event-volumechange.html-->
+<!--onvolumechange-->
+   <!--<i class="music-icon">&#xe64b;</i>
+    <i class="music-icon">&#xe60a;</i>
+    <i class="music-icon">&#xe600;</i>
+    <i class="music-icon">&#xe62d;</i>
+    <i class="music-icon">&#xe62a;</i>
+    <i class="music-icon">&#xe61a;</i>
+    <i class="music-icon">&#xe63d;</i>
+    <i class="music-icon">&#xe63c;</i>
+    <i class="music-icon">&#xe63b;</i>
+    <i class="music-icon">&#xe602;</i>
+    
+    <i class="music-icon">&#xe83f;</i>-->
+
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script>    
+// 获取专辑分类
+// $.get('http://api.jirengu.com/fm/getChannels.php').done(function(channelInfo){
+// // console.log(channelInfo);
+
+
+// });
+
+// http://dmtload.51kf.cc/
+// http://book.jirengu.com/jirengu-inc/jrg-vip9/members/%E6%9D%A8%E7%84%B6/FM/js/merg.js
+var lyricArr = [];
+var  AlbumClass= ['public_tuijian_chengmingqu', 'public_fengge_liuxing', 'public_tuijian_wangluo', ]
+var sid = '';
+var fmUrl = 'https://jirenguapi.applinzi.com/fm/';
+
+var audio = $('#audio')[0];
+function getSong(){
+    $.get(fmUrl+"getSong.php", {channel: 6},function (data) {
+        console.log( data )
+        if(data.song[0].url === null){
+            getSong();
+        }else{
+            var musicName = '<h3>'+data.song[0].title+'</h3><p>演唱者：'+data.song[0].artist+' </p><p>来源：Baidu流行榜</p>';
+            $('#audio').attr({'src': data.song[0].url , 'autoplay':'true'});
+            $('.album-box').html(musicName);
+            $('#picture').attr('src', data.song[0].picture);
+            $('.img-filter').css('backgroundImage', 'url('+data.song[0].picture+')');
+            sid = data.song[0].sid;
+            audio.volume = '0.7';
+            createArrMap()
+        }
+    },'jsonp');
+}
+
+getSong();
+
+
+
+// 获取歌词
+function createArrMap() {
+    $.post(fmUrl+"getLyric.php", {sid: sid },function (data) {
+        var lyric = JSON.parse(data).lyric;
+        var lines = lyric.split('\n'),  // 把歌词以空格分开
+            timeRegular = /\[\d{2}:\d{2}.\d{2}\]/g;   // 匹配时间
+        lines.forEach(function (i) {
+            if (!timeRegular.test(i)) {              //剔除收到数据中没有时间的部分
+                lines.splice(i, 1);
+                return;
+            }
+            var time = i.match(timeRegular);       //把歌词分为：时间和歌词两个部分
+            var lyric = i.split(time);
+            var seconds = time[0][1] * 600 + time[0][2] * 60 + time[0][4] * 10 + time[0][5] * 1;  //将时间换算为秒
+            lyricArr.push([seconds, lyric[1]] );      //将整个歌词保存至二维数组中，形式为[时间，歌词]；     
+        });
+        readyLyric(lyricArr)
+    });
+}
+
+// 点击获取歌词
+var ly = true;
+$('.lyric').on('click', function(){
+    if(ly){
+        $('.music-box').addClass('active');
+        ly = false;
+    }else{
+        $('.music-box').removeClass('active');
+        ly = true;
+    }
+})
+
+
+var curTime = audio.currentTime;
+var content = audio.duration;
+
+var lyricBox = $('.lyric-box');
+function readyLyric(lyric){
+    lyricBox.empty();
+
+    var html = '<div class="lyric-ani">';
+    var lyricLength = 0;
+
+    lyric.forEach(function(element,index) {
+        html += '<p class="lyric-line" data-id="'+index+'" data-time="' + element[0] + '">&nbsp;' + element[1] + '&nbsp;</p>';
+        lyricLength++;
+    });
+    html += '</div>';
+    lyricBox.append(html);
+
+    // 歌词高度
+    var lyricP = lyricBox.find('.lyric-ani p');
+    lyricP.eq(0).html("&nbsp;&nbsp;");
+  
+    $('#audio').on('timeupdate', function(){
+        
+        if(isNaN(content)){ content = audio.duration;  }
+        for (var i = 0; i < lyricLength; i++) {                          //遍历歌词下所有的li
+            var curT = lyricP.eq(i).data("time");      //获取当前li存入的当前一排歌词时间
+            var nexT = lyricP.eq(i + 1).data("time");
+            var curTime = audio.currentTime; 
+            if(curTime > nexT){
+                lyricP.removeClass('active');
+                $('.lyric-ani').css({
+                    'height': 20*lyricLength+'px',
+                    'marginTop': - parseInt(20 * i - 100)+'px',
+                    "transition": "1s"
+                });
+            }
+            if( (curTime > curT) && (curTime < nexT)){
+                lyricP.eq( i ).addClass("active");
+            }
+        }
+
+        if(parseInt(content - (parseInt(content / 60) * 60)) < 10) {
+            $('.duration-time').text(parseInt(content / 60) + ':0' + parseInt(content - (parseInt(content / 60) * 60)));
+        } else {
+            $('.duration-time').text(parseInt(content / 60) + ':' + parseInt(content- (parseInt(content / 60) * 60)));
+        }
+
+        if( parseInt(curTime - (parseInt(curTime/ 60) * 60)) < 10 ){
+            $('.current-time').text(parseInt(curTime / 60) + ':0' + parseInt(curTime - (parseInt(curTime/ 60) * 60)))
+        }else{
+            $('.current-time').text(parseInt(curTime / 60) + ':' + parseInt(curTime - (parseInt(curTime/ 60) * 60)))
+        }
+
+        var length = parseInt(curTime / content * 100);
+        $(".progress-line").width(length + '%');
+        $('.progress-line').css({
+            "width" : length +'%',
+            "transition": "1s"
+        })
+
+        audio.onended = function() {
+            getSong();
+        };
+    });
+}
+ 
+// 下一曲
+ $('.next').on('click', function(){
+     getSong();
+ })
+// 暂停
+$('.play-btn ').on('click', function(){
+
+    if (audio.paused) {
+        audio.play();
+        $('.play-btn').html('&#xe682;');
+    } else {
+        audio.pause();
+        $('.play-btn').html('&#xe602;')
+    }
+
+
+});
+// 喜欢
+var like = true;
+$('.like').on('click', function(){
+ if(like){
+        $('.like').html('&#xe60a;');
+        like = false;
+    }else{
+        $('.like').html('&#xe601;');
+        like = true;
+    }
+})
+// 设置声音
+$('.volume-bar').on('mousemove', function(e){
+    var len = $(this).width();
+    var left = e.pageX - $(this).offset().left;
+    var volume = left / len;
+   
+    if(left > 0 && left <= len){
+        $('.volume-line').css('width', volume *100 +'%');
+        audio.volume = volume;
+    }
+    if(volume > 0.5){
+        $('.vol').html('&#xe63d');
+    }else if(volume < 0.5 && volume > 0.1 ){
+        $('.vol').html('&#xe63c');
+    }else{
+        $('.vol').html('&#xe63b');
+    }
+
+})
+
+
+</script>
+</body>
+</html>
