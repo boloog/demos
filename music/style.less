@@ -32,12 +32,12 @@ body{
     overflow: hidden;
 }
 @font-face {
-  font-family: 'music-icon';  /* project id 314847 */
-  src: url('//at.alicdn.com/t/font_g0bt4ykvc28x5hfr.eot');
-  src: url('//at.alicdn.com/t/font_g0bt4ykvc28x5hfr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_g0bt4ykvc28x5hfr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_g0bt4ykvc28x5hfr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_g0bt4ykvc28x5hfr.svg#iconfont') format('svg');
+    font-family: 'music-icon';  /* project id 314847 */
+    src: url('//at.alicdn.com/t/font_ho53cs8njo72e29.eot');
+    src: url('//at.alicdn.com/t/font_ho53cs8njo72e29.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_ho53cs8njo72e29.woff') format('woff'),
+    url('//at.alicdn.com/t/font_ho53cs8njo72e29.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_ho53cs8njo72e29.svg#iconfont') format('svg');
 }
 .music-icon{
     font-family:"music-icon" !important;
@@ -176,6 +176,7 @@ body{
         line-height: 140px;
         padding: 0 50px;
         position: relative;
+        text-align: left;
         &.active{
             margin-top: 10px;
         }
@@ -220,12 +221,18 @@ body{
         .duration-time{
             float: right;
         }
+        .next{
+            margin: 0 16px;
+        }
         .p-n-btn{
-            font-size: 40px;
+            font-size: 34px;
         }
         .play-btn{
             font-size: 60px;
-            margin: 0 10px;
+            margin-left: 110px;
+        }
+        .vol{
+            margin-left: 40px;
         }
         .volume-bar{
             width: 120px;
@@ -233,7 +240,7 @@ body{
             background: aquamarine;
             position: absolute;
             top: 88px;
-            right: 124px;
+            right: 130px;
             border-radius: 6px;
             background-color: rgba(159, 157, 156, .6);
         }
