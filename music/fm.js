@@ -1,7 +1,10 @@
 var Music = (function(){
+    function _Music(){
+        console.log(123);
+    }
     return {
-        _init: function(){
-            new Music();
+        init: function(){
+            new _Music();
         }
     }
 })();

@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>my music</title>
+    <title>MUSIC播放器</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-
 <div class="music-box">
-    <!--<i class="music-icon music-list">&#xe61a;</i>-->
     <div class="img-filter"></div>
     <div class="layer-ct"></div>
     <img src="https://misc.360buyimg.com/mtd/pc/index/gb/images/lazyload@2x.gif" class="picture" id="picture">
@@ -28,12 +26,9 @@
                 </div>
             </div>
             <span class="time current-time">0:00</span>
-            
-            <!--<i class="music-icon p-n-btn out-type">&#xe871;</i>-->
-            <!--<i class="music-icon p-n-btn out-type">&#xe66d;</i>-->
             <i class="music-icon play-btn">&#xe6ee;</i>
             <i class="music-icon p-n-btn next">&#xe718;</i>
-            <i class="music-icon p-n-btn out-type">&#xe67c;</i>
+            <i class="music-icon p-n-btn out-type" data-type="0">&#xe67c;</i>
             <i class="music-icon vol">&#xe63d;</i>
             <div class="volume-bar">
                 <span class="volume-line">
@@ -44,21 +39,20 @@
     </div>
     </div>
 </div>
-<audio src="" id="audio" autoplay>您的浏览器不支持 audio 标签。</audio>
+<audio src="" id="audio">您的浏览器不支持 audio 标签。</audio>
 <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script src="./fm.js"></script>
 <script>    
 var sid = '';
 var fmUrl = 'https://jirenguapi.applinzi.com/fm/';
 var audio = $('#audio')[0];
 var lyricBox = $('.lyric-box');
-
-
 function getSong(){
     $.get(fmUrl+"getSong.php", {channel: 'public_shiguang_80hou'},function (data) {
         if(data.song[0].url === null && data.song[0].artist === null && data.song[0].title === null){
             getSong();
         }else{
-            var musicName = '<h3>'+data.song[0].title+'</h3><p>演唱者：'+data.song[0].artist+' </p><p>来源：80后音乐榜单</p>';
+            var musicName = '<h3>歌曲：'+data.song[0].title+' </h3><p>演唱者：'+data.song[0].artist+'</p><p> 来源：80后音乐榜单</p>';
             $('#audio').attr({'src': data.song[0].url , 'autoplay':'true'});
             $('.album-box').html(musicName);
             $('#picture').attr('src', data.song[0].picture);
@@ -105,9 +99,7 @@ $('.lyric').on('click', function(){
         $('.music-box').removeClass('active');
         ly = true;
     }
-})
-
-
+});
 function readyLyric(lyric){
     lyricBox.empty();
     var lyricLength = 0;
@@ -118,8 +110,6 @@ function readyLyric(lyric){
         lyricLength++;
     });
     html += '</div>';
-    
-
     lyricBox.append(html);
 
     // 歌词高度 第一个p清空
@@ -130,8 +120,6 @@ function readyLyric(lyric){
     var content = audio.duration; //写里面
 
   audio.ontimeupdate = function(){
-      
-
         if(isNaN(content)){ content = audio.duration;  }
         
         for (var i = 0; i < lyricLength; i++) {                          //遍历歌词下所有的li
@@ -169,6 +157,7 @@ function readyLyric(lyric){
         });
 
         audio.onended = function() {
+            $('.like').html('&#xe601;');
             getSong();
         };
   }
@@ -176,6 +165,8 @@ function readyLyric(lyric){
  
 // 下一曲
  $('.next').on('click', function(){
+     $('.like').html('&#xe601;');
+     $('#audio').attr({'loop': false});
      getSong();
  })
 // 暂停
@@ -211,12 +202,11 @@ $('.volume-bar').on('mousemove', function(e){
     }
     if(volume > 0.5){
         $('.vol').html('&#xe63d');
-    }else if(volume < 0.5 && volume > 0.1 ){
+    }else if(volume < 0.5 && volume > 0.04 ){
         $('.vol').html('&#xe63c');
     }else{
         $('.vol').html('&#xe63b');
     }
-
 })
 
 // 设置音乐进度
@@ -253,6 +243,26 @@ $('.progress').mousemove(function(e){
          $('.progress-line').css('width', volume *100 +'%');
     }
 });
+// 音乐输入类型
+$('.out-type').on('click', function(){
+    var type = $(this).data('type');
+    if(type){
+        $(this).data('type', 0).html('&#xe67c;');
+        $('#audio').attr({'loop': false});
+    }else{
+        $(this).data('type', 1).html('&#xe66d;');
+        $('#audio').attr({'loop': true });
+        
+    }
+});
+// 点击分享
+$('.share').on('click', function(){
+    var title = $('.album-box').text().replace(" ", '%0d%0a');
+    var pic =$('#picture').attr('src');
+    window.open('http://service.weibo.com/share/share.php?title='+title+'%0d%0a龙柏龙的音乐盒♪&url=' + window.location.href+'&pic='+pic);
+})
+
+Music.init();
 </script>
 </body>
 </html>
