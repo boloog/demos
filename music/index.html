@@ -188,10 +188,8 @@ function readyLyric(lyric){
         }
 
         var length = curTime / content * 100;
-        $(".progress-line").width(length + '%');
         $('.progress-line').css({
-            "width" : length +'%',
-            "transition": ".2s"
+            "width" : length +'%'
         });
 
         audio.onended = function() {
@@ -255,7 +253,30 @@ $('.progress').on('click', function(e){
         audio.currentTime =  volume * audio.duration;
          $('.progress-line').css('width', volume *100 +'%');
     }
-})
+});
+
+
+
+var btn = $('.progress-handle');
+var clicking = false;
+btn.mousedown(function(){
+    clicking = true;
+    audio.pause();
+});
+btn.mouseup(function(){
+    clicking = false;
+    audio.play();
+});
+$('.progress').mousemove(function(e){
+    if(clicking == false) return;
+    var len = $(this).width(),
+        left = e.pageX - $(this).offset().left,
+        volume = left / len;
+    if(volume <= 1 || volume >= 0){
+        audio.currentTime =  volume * audio.duration;
+         $('.progress-line').css('width', volume *100 +'%');
+    }
+});
 </script>
 </body>
 </html>
