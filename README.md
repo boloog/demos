@@ -1,12 +1,10 @@
-# demos 
+# 个人前端作品
 
-目录说明（持续更新中...）
-
-- tabs	
+- tabs
 原生js实现TAB切换
 
-- loadMore	
-原生ajax实现点击加载更多	
+- loadMore
+原生ajax实现点击加载更多
 
 - dialog
 原生madal-layer点击弹窗
@@ -18,7 +16,7 @@
 跨域获取数据的几种方式
 
 - jQuery
-jQuery的操作实例
+jQuery的操作实例（瀑布流，懒加载，轮播图等）
 
 - DatePicker
 日期选择器
@@ -35,7 +33,7 @@ jquery-lazyload封装
 - requirejs
 require 模块化打包并压缩js
 
-- slider 
+- slider
 jquery封装无缝轮播
 
 - tabs
@@ -43,3 +41,18 @@ jquery封装无缝轮播
 
 - webpack
 webpack 打包js 并且压缩js
+
+- Media query
+响应式布局
+
+- css3
+css3基本动画实现
+
+- gulp
+构建工具实现css,js,图片打包合并
+
+- promise
+简单实现 Promise 工作流程
+
+
+> 持续更新中...
