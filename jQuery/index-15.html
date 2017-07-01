@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>checkbox-全选单选多选</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<h3>jQuery - checkbox <small>全选单选多选</small></h3>
+	<ul>
+		<li>
+			<span class="btn btn-default btn-xs badge all">全选</span>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="1">1</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="2">2</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="4">3</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="5">5</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="6">6</label>
+		</li>
+		<li>
+			<span class="btn btn-default btn-xs badge all">全选</span>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="11">11</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="12">12</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="13">13</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="14">14</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="15">15</label>
+		</li>
+		<li>
+			<span class="btn btn-default btn-xs badge all">全选</span>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="111">111</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="112">112</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="113">113</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="114">114</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="115">115</label>
+			<label class="checkbox-inline"><input type="checkbox" class="child" value="116">116</label>
+		</li>
+	</ul>
+	<p class="lead dataArr"></p>
+</div>
+
+<hr>
+<footer class="text-center">
+    <p>Written and coded by <a href="http://www.boloog.com/" target="_blank">bolong</a>.</p>
+</footer>
+<script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script>
+var arr = [];
+$('.all').on('click', function(){
+	var childChecked = $(this).siblings().find('input');
+	var falg = false;
+	var _this = $(this);
+	if($(this).hasClass('check')){
+		$(this).removeClass('check');
+		$.each(childChecked, function(index, val) {
+			if($(this).prop('checked') != true){
+				$(this).prop('checked', true);
+				falg = true;
+				arr.push($(this).val());
+				_this.addClass('check');
+			}
+			
+		});
+		if(!falg){
+			$.each(childChecked, function(index, val) {
+				arr.splice($.inArray($(this).val() ,arr),1); 
+				$(this).prop('checked', false);
+			});
+
+		}
+
+	}else{
+		$.each(childChecked, function(index, val) {
+			if($(this).prop('checked') != true){
+				$(this).prop('checked', true);
+			
+				arr.push($(this).val());
+				_this.addClass('check');
+			}
+
+		});
+	}
+
+	$('.dataArr').text(arr)
+	console.log(arr);
+})
+
+$('.child').on('click', function(){
+	var par = $(this).parent('li');
+	var ipt = par.find('input');
+	var all = par.find('.all');
+
+	var childVal = $(this).val();
+
+	if ($(this).prop('checked') == true) {
+ 
+        $(this).prop('checked', true);
+
+        arr.push(childVal)
+    }else{
+    
+    	 $(this).prop('checked', false);
+    	 arr.splice($.inArray(childVal,arr),1); 
+    }
+
+	var thisFalg = false;
+	$.each(ipt, function(index, val) {
+		if($(this).prop('checked') != true){
+			thisFalg = true;
+			return false;
+		}
+		
+	});
+	if(!thisFalg){
+		all.addClass('check');
+	}else{
+		all.removeClass('check');
+	}
+
+	$('.dataArr').text(arr)
+	console.log(arr);
+})
+</script>
+</body>
+</html>
